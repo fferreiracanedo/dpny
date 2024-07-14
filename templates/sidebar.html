@@ -1,0 +1,196 @@
+{% load static %}
+<!-- Sidebar -->
+<div class="sidebar-overlay"></div>
+<aside class="sidebar-container d-flex align-items-center flex-column overflow-auto h-100">
+    <div class="sidebar-content">
+        <!-- User Info -->
+        <div class="user-container">
+
+                {% if user.pessoa %}
+                    {% if user.pessoa.foto %}
+                    <label class="user-image rounded-circle can-change-photo" for="userPhotoFile" id="userPhoto" style="background-image: url('{{user.pessoa.foto.url}}');"></label>
+                    {% else %}
+                    <label class="user-image rounded-circle can-change-photo" for="userPhotoFile" id="userPhoto" style="background-image: url('{% static 'img/no-photo.jpg' %}');"></label>
+                    {% endif %}
+                    <input type="file" accept="image/*" id="userPhotoFile" class="d-none">
+                    {% else %}
+                    <label class="user-image rounded-circle non-user" style="background-image: url('{% static 'img/no-photo.jpg' %}');"></label>
+                {% endif %}
+
+                <div>
+                    <span class="info-username">{{user.pessoa.nome_abreviado}}</span>
+                    {% if user.pessoa.cargo %}
+                    <br>
+                    <span class="info-cargo">
+                        {{user.pessoa.cargo.titulo}}
+                        {% if user.is_staff %}
+                            - Gestor
+                        {% endif %}
+                    </span>
+                    {% endif %}
+                </div>
+
+        </div>
+
+        <hr class="separator">
+
+        <!-- Menu -->
+        <ul class="sidebar-menu {% if not user.pessoa %} dados-only {% endif %}" id="sideMenu">
+            <input type="hidden" disabled value="{{user.is_staff}}" id="isStaff">
+            <div class="text-center text-white sideload-container">
+                <i class="fa fa-spinner fa-spin"></i>
+            </div>
+            <div data-sideview="gestor" class="d-none">      
+                <li data-form-id="perfis">
+                    <a href="{% url 'perfis' %}">
+                        <i class="icon-graph"></i>
+                        Seleção
+                    </a>
+                </li>
+                {% if user.is_staff %}
+                    <li data-form-id="comite">
+                        <a href="{% url 'comite' %}">
+                            <i class="icon-briefcase"></i>
+                            Comitê
+                        </a>
+                    </li>  
+                {% endif %}
+            </div>
+            <div data-sideview="candidato" class="d-none">      
+                <li data-form-id="formDadosPessoais">
+                    <a href="/">
+                        <i class="icon-user"></i>
+                        Dados Pessoais
+                    </a>
+                </li>
+                <li data-form-id="formFormacaoAcademica">
+                    <a href="{% url 'formacao_academica' %}">
+                        <i class="icon-graduation"></i>
+                        Formação Acadêmica
+                    </a>
+                </li>
+                <li data-form-id="formCursos">
+                    <a href="{% url 'cursos' %}">
+                        <i class="icon-badge"></i>
+                        Cursos e Certificações
+                    </a>
+                </li>
+                <li data-form-id="formIdiomas">
+                    <a href="{% url 'idiomas' %}">
+                        <i class="icon-speech"></i>
+                        Idiomas
+                    </a>
+                </li>
+                <li data-form-id="formExperiencia">
+                    <a href="{% url 'experiencia_profissional' %}">
+                        <i class="icon-chart"></i>
+                        Atuação Profissional
+                    </a>
+                </li>
+
+                {% if not user.pessoa.cargo %}
+                <li data-form-id="formRequisitos">
+                    <a href="{% url 'requisitos_tecnicos' %}">
+                        <i class="icon-layers"></i>
+                        Requisitos Técnicos
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if not user.pessoa.cargo %}
+                <li data-form-id="formTesteEscrito">
+                    <a href="{% url 'teste_psicologico' %}">
+                        <i class="icon-pencil"></i>
+                        Teste Escrito
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if not user.pessoa.cargo %}
+                <li data-form-id="formPerfis">
+                    <a href="{% url 'perfis' %}">
+                        <i class="icon-briefcase"></i>
+                        Vagas
+                    </a>
+                </li>
+                {% endif %}
+
+            </div>
+            {% if user.pessoa.cargo %}
+            <div>
+                <li {% comment %} data-toggle="collapse" {% endcomment %}  href="#avaliacoesSubmenu" >
+                    <a href="#" onclick="location.href='/avaliacoes/'">
+                        <i class="icon-like"></i>
+                        Avaliação de Desempenho
+                    </a>
+                    
+                    {% comment %} <i class="fa fa-angle-down float-right mt-1"></i> {% endcomment %}
+
+                    <!-- Submenu -->
+                    <div class="collapse show" id="avaliacoesSubmenu">
+                    <ul class="avaliacoes-submenu">
+                        <li>
+                            <a href="{% url 'avaliacoes' 'autoavaliacao' %}">
+                                <i class="icon-user"></i>
+                                Autoavaliação
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'avaliacoes' 'gestor' %}">
+                                <i class="icon-graduation"></i>
+                                Avaliação do seu Gestor
+                            </a>
+                        </li>
+                        {% if user.pessoa.is_lider %}
+                        <li>
+                            <a href="{% url 'avaliacoes' 'subordinado' %}">
+                                <i class="icon-doc"></i>
+                                Avaliação dos seus <br> Subordinados
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url 'avaliacoes' 'par' %}">
+                                <i class="icon-speech"></i>
+                                Avaliação dos seus Pares
+                            </a>
+                        </li>
+                        {% if user.is_staff %}
+                            <li>
+                                <a href="{% url 'resultado_avaliacao' %}">
+                                    <i class="icon-info"></i>
+                                    Resultado
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'resultado_equipe' %}">
+                                    <i class="icon-info"></i>
+                                    Resultado da Equipe
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'atualizar_pdi' %}">
+                                    <i class="icon-direction"></i>
+                                    PDI
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    </div>
+                </li>
+            </div>
+            {% endif %}
+        </ul>
+
+        <br>
+
+        <div class="text-center">
+            <a class="btn btn-loggout mb-2" href="{% url 'account_logout' %}">
+                <i class="fa fa-sign-out"></i> 
+                Sair da Conta
+            </a>
+        </div>
+
+    </div>
+</aside>

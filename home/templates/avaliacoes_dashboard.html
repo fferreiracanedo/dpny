@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container section-metas no-bg">
+        
+            <h4>Avaliação</h4>
+            <br>
+
+            <div class="avaliacoes d-flex flex-wrap justify-content-center">
+              <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                <b>Autoavaliação</b>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                  <div class="
+                    c100 
+                    p{% if autoavaliacao.porcentagem is 0 and autoavaliacao.total > 0 %}100{% else %}{{autoavaliacao.porcentagem}}{% endif %} 
+                    {% if autoavaliacao.porcentagem is 0 %} red 
+                    {% elif autoavaliacao.porcentagem is 100 %} green
+                    {% else %} yellow {% endif %} 
+                  ">
+                    <span>
+                      {{autoavaliacao.concluidas}}
+                      <br>
+                      <small>avaliados</small>
+                    </span>
+                    <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
+                    </div>
+                  </div>
+
+                  <div class="align-self-end ml-3 mb-4">
+                    <small>Total: {{autoavaliacao.total}} </small>
+                    <br>
+                    <small>Avaliar: {{autoavaliacao.pendentes}}</small>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                <b>Avaliação Gestor</b>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                  <div class="
+                    c100 
+                    p{% if gestor.porcentagem is 0 and gestor.total > 0 %}100{% else %}{{gestor.porcentagem}}{% endif %} 
+                    {% if gestor.porcentagem is 0 %} red 
+                    {% elif gestor.porcentagem is 100 %} green
+                    {% else %} yellow {% endif %} 
+                  ">
+                    <span>
+                      {{gestor.concluidas}}
+                      <br>
+                      <small>avaliados</small>
+                    </span>
+                    <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
+                    </div>
+                  </div>
+
+                  <div class="align-self-end ml-3 mb-4">
+                    <small>Total: {{gestor.total}}</small>
+                    <br>
+                    <small>Avaliar: {{gestor.pendentes}}</small>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                <b>Avaliação Subordinados</b>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                  <div class="
+                    c100 
+                    p{% if subordinados.porcentagem is 0 and subordinados.total > 0 %}100{% else %}{{subordinados.porcentagem}}{% endif %} 
+                    {% if subordinados.porcentagem is 0 %} red 
+                    {% elif subordinados.porcentagem is 100 %} green
+                    {% else %} yellow {% endif %} 
+                  ">
+                    <span>
+                      {{subordinados.concluidas}}
+                      <br>
+                      <small>avaliados</small>
+                    </span>
+                    <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
+                    </div>
+                  </div>
+
+                  <div class="align-self-end ml-3 mb-4">
+                    <small>Total: {{subordinados.total}}</small>
+                    <br>
+                    <small>Avaliar: {{subordinados.pendentes}}</small>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                <b>Avaliação de Pares / Clientes Internos</b>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                  <div class="
+                    c100 
+                    p{% if pares.porcentagem is 0 and pares.total > 0 %}100{% else %}{{pares.porcentagem}}{% endif %} 
+                    {% if pares.porcentagem is 0 %} red 
+                    {% elif pares.porcentagem is 100 %} green
+                    {% else %} yellow {% endif %} 
+                  ">
+                    <span>
+                      {{pares.concluidas}}
+                      <br>
+                      <small>avaliados</small>
+                    </span>
+                    <div class="slice">
+                      <div class="bar"></div>
+                      <div class="fill"></div>
+                    </div>
+                  </div>
+
+                  <div class="align-self-end ml-3 mb-4">
+                    <small>Total: {{pares.total}}</small>
+                    <br>
+                    <small>Avaliar: {{pares.pendentes}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div class="legenda">
+              <span>Avaliações Concluídas</span>
+              <span>Avaliações em andamento</span>
+              <span>Avaliações não iniciadas</span>
+            </div>
+    </section>
+</section>
+{% endblock %}

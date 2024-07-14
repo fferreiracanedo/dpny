@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Gestor de RH - Área Pessoal {% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'home' %}">Home</a></li>
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'trilha' %}">Trilha</a></li>
+          <li class="breadcrumb-item" aria-current="page">
+              <a href="{% url 'treinamento' treinamento=treinamento.id %}">{{ treinamento.nome }}</a>
+          </li>
+      </ol>
+    </nav>
+{% endblock %}
+
+{% block titulo_conteudo %}
+    {{ treinamento.nome }}
+{% endblock %}
+
+{% block main %}
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"></h5>
+            </div>
+            <p class="mb-1">{{ treinamento.descricao }}</p>
+            <hr>
+            {% if treinamento.tipo == 'video' %}
+                <video width="100%" controls>
+                    <source src="{% static 'cursos/' %}{{treinamento.file}}">
+                    Seu browser não suporta a reprodução de vídeos.
+                </video>
+            {% endif %}
+            {% if treinamento.tipo == 'pdf' %}
+                <object data="{% static 'cursos/' %}{{treinamento.file}}" style="width: 100%; height: 500px;"></object>
+            {% endif %}
+            {% if treinamento.tipo == 'arquivo' %}
+                <a href="{% static 'cursos/' %}{{treinamento.file}}">Download do conteúdo</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

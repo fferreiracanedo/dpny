@@ -1,0 +1,258 @@
+{% extends "dashboard_base.html" %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% load staticfiles %}
+
+{% block extrahead %}
+
+<style>
+    .panel-gray {
+        border-color: #888888;
+    }
+
+    .panel-gray .panel-heading {
+        border-color: #888888;
+        color: #fff;
+        background-color: #888888;
+    }
+
+    .panel-gray a {
+        color: #888888;
+    }
+
+    .panel-gray a:hover {
+        color: #222222;
+    }
+
+    .panel-purple {
+        border-color: #993399;
+    }
+
+    .panel-purple .panel-heading {
+        border-color: #993399;
+        color: #fff;
+        background-color: #993399;
+    }
+
+    .panel-purple a {
+        color: #993399;
+    }
+
+    .panel-gray a:hover {
+        color: #550055;
+    }
+</style>
+
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ usuarios }}</div>
+                        <div>Usuários Cadastrados!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'admin:auth_user_changelist' %}">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ pessoas }}</div>
+                        <div>Pessoas Cadastradas!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'admin:pessoa_pessoa_changelist' %}">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-search fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ perfis }}</div>
+                        <div>Perfis Abertos!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'admin:perfil_perfil_changelist' %}">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-gray">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ analises }}</div>
+                        <div>Análises Avaliadas!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'admin:perfil_analisetalento_changelist' %}">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-purple">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-edit fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ testes }}</div>
+                        <div>Testes Comportamentais!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="{% url 'admin:teste_psicologico_testepsicologico_changelist' %}">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> Outros Registros
+            </div>
+
+            <div class="panel-body">
+                <div class="list-group">
+                    <a href="{% url 'admin:experiencia_profissional_cargo_changelist' %}" class="list-group-item">
+                        <i class="fa fa-sitemap fa-fw"></i> Cargos
+                        <span class="pull-right text-muted small"><em>{{ cargos }} cadastro{{ cargos|pluralize }}</em>
+                        </span>
+                    </a>
+                    <a href="{% url 'admin:experiencia_profissional_areaatuacao_changelist' %}" class="list-group-item">
+                        <i class="fa fa-thumb-tack fa-fw"></i> Áreas de Atuação
+                        <span class="pull-right text-muted small"><em>{{ areas_atuacao }} cadastro{{ areas_atuacao|pluralize }}</em>
+                        </span>
+                    </a>
+                    <a href="{% url 'admin:formacao_curso_changelist' %}" class="list-group-item">
+                        <i class="fa fa-book fa-fw"></i> Cursos
+                        <span class="pull-right text-muted small"><em>{{ cursos }} cadastro{{ cursos|pluralize }}</em>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.panel -->
+
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <!-- /.col-lg-8 -->
+    
+</div>
+<!-- /.row -->
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<!-- Flot Charts JavaScript -->
+<script src="{% static "bower_components/flot/excanvas.min.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.pie.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.resize.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.time.js" %}"></script>
+<script src="{% static "bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js" %}"></script>
+<script>
+    //Flot Pie Chart
+$(function() {
+
+    var data = [{
+        label: "Consumidas",
+        data: {{ pacote.quantidade_atual_analises }}
+    }, {
+        label: "Disponíveis",
+        data: {{ pacote.analises_restantes }}
+    }];
+
+    var plotObj = $.plot($("#flot-pie-chart"), data, {
+        series: {
+            pie: {
+                show: true
+            }
+        },
+        grid: {
+            hoverable: true
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+            shifts: {
+                x: 20,
+                y: 0
+            },
+            defaultTheme: false
+        }
+    });
+
+});
+</script>
+{% endblock extrajs %}

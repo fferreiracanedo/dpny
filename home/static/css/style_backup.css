@@ -1,0 +1,21 @@
+p.help-block{
+    color: #888888;
+    font-size: 0.8em;
+}
+
+div.table-responsive{
+    font-size: 0.8em;
+}
+
+div.card-header{
+    background-color: #417690;
+    color: #FFFFFF;
+}
+
+ul.socialaccount_providers {
+    list-style: none; /* Remove list bullets */
+}
+
+ul.socialaccount_providers li{
+    width: 250px;
+}

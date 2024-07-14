@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+  <section class="data-form-container" id="containerCurriculo">
+
+    <a onclick="window.history.back();" href="#">
+        <i class="fa fa-angle-left"></i> Voltar 
+    </a> 
+    <br>
+    <br>
+
+    <h3>Currículo</h3>
+
+    <br>
+
+    <!-- Dados Pessoais -->
+    <h4>Dados Pessoais</h4>
+    <br>
+    <section class="info-container multi-column">
+      <div>
+        <b>Nome:</b> {{pessoa.nome|default:'Não especificado'}} <br>
+        <b>Email:</b> {{pessoa.email|default:'Não especificado'}}  <br>
+        <b>Data de Nascimento:</b> {{pessoa.data_nascimento|default:'Não especificado'}} <br>
+        {% if not pessoa.cargo %}
+          <b>CPF:</b> {{pessoa.cpf|default:'Não especificado'}} <br>
+        {% endif %}
+      </div>
+      <div>
+        <b>Tempo de Empresa:</b> {{pessoa.tempo_empresa|default:'Não especificado'}} <br>
+        {% if not pessoa.cargo %}
+          <b>Telefone Residencial:</b> {{pessoa.telefone|default:'Não especificado'}} <br>
+          <b>Telefone Celular:</b> {{pessoa.celular|default:'Não especificado'}} <br>
+        {% endif %}
+        <b>Link no LinkedIn:</b> <a target="_blank" {% if pessoa.link_perfil_linkedin %} href="{{pessoa.link_perfil_linkedin}}" {% endif %}>{{pessoa.link_perfil_linkedin|default:'Não especificado'}}</a><br>
+        <b>Estado Civil:</b> {{pessoa.estado_civil|default:'Não especificado'}} <br>
+      </div>
+    </section>
+
+    <!-- Formação Acadêmica -->
+    <br>
+    <h4>Formação Acadêmica</h4>
+    <br>
+    <section class="info-container">
+      {% for formacao in pessoa.formacaoacademica_set.all %}
+      <div>
+        <b>Nível:</b> {{formacao.nivel_escolaridade}} <br>
+        <b>Curso:</b> {{formacao.curso}} <br>
+        <b>Instituição:</b> {{formacao.instituicao}} <br>
+        <b>Situação:</b> {{formacao.situacao}} <br>
+      </div>
+      {% endfor %}
+
+      {% if not pessoa.formacaoacademica_set.all %}
+        <div class="alert alert-dark">
+          Esse usuário não adicionou nenhuma formação acadêmica
+        </div>
+      {% endif %}
+
+    </section>
+
+    <!-- Licenças / Certificados / Cursos -->
+    <br>
+    <h4>Licenças / Certificados / Cursos</h4>
+    <br>
+    <section class="info-container">
+      {% for curso in pessoa.curso_set.all %}
+        <div>
+          <b>Curso:</b> {{curso}} <br>
+          <b>Instituição:</b> {{curso.instituicao}} <br>
+          <b>Carga Horária (Horas):</b> {{curso.carga_horaria}} <br>
+        </div>
+        <br>
+      {% endfor %}
+
+      {% if not pessoa.curso_set.all %}
+        <div class="alert alert-dark">
+          Esse usuário não adicionou nenhum curso
+        </div>
+      {% endif %}
+
+    </section>
+
+    <!-- Idiomas -->
+    <br>
+    <h4>Idiomas</h4>
+    <br>
+    <section class="info-container">
+      {% for idioma in pessoa.idioma_set.all %}
+        <div>
+          <b>Idioma:</b> {{idioma.idioma}} <br>
+          <b>Nível:</b> {{idioma.nivel}} <br>
+        </div>
+        <br>
+      {% endfor %}
+
+      {% if not pessoa.idioma_set.all %}
+        <div class="alert alert-dark">
+          Esse usuário não adicionou nenhum idioma
+        </div>
+      {% endif %}
+
+    </section>
+
+    <!-- Experiência Profissional -->
+    <br>
+    <h4>Experiência Profissional</h4>
+    <br>
+    <section class="info-container">
+      {% for experiencia in pessoa.experienciaprofissional_set.all %}
+        <div>
+          <b>Cargo:</b> {{experiencia.cargo}} <br>
+          <b>Empresa:</b> {{experiencia.empresa}} <br>
+          <b>Tempo:</b> {{experiencia.tempo_empresa}} <br>
+          <b>Data de Entrada:</b> {{experiencia.data_inicio}} <br>
+          <b>Data de Saída:</b> {{experiencia.data_termino|default:'Não especificado'}} <br>
+          <br>
+        </div>
+      {% endfor %}
+
+      {% if not pessoa.experienciaprofissional_set.all %}
+        <div class="alert alert-dark">
+          Esse usuário não adicionou nenhuma experiência profissional
+        </div>
+      {% endif %}
+
+      <hr>
+      <b>Cargo atual</b>
+      <br>
+
+      <b>"Descreva as 5 atividades mais relevantes de sua atuação na Eicon"</b>
+      <span>• {{pessoa.atividades_relevantes1|default:"-"}}</span>
+      <span>• {{pessoa.atividades_relevantes2|default:"-"}}</span>
+      <span>• {{pessoa.atividades_relevantes3|default:"-"}}</span>
+      <span>• {{pessoa.atividades_relevantes4|default:"-"}}</span>
+      <span>• {{pessoa.atividades_relevantes5|default:"-"}}</span>
+      <br>
+
+      <b>"Como você mede ou medirá QUANTITATIVAMENTE cada atividade na Eicon"</b>
+      <span>• {{pessoa.medicao_quantitativa_atividades_relevantes1|default:"-"}}</span>
+      <span>• {{pessoa.medicao_quantitativa_atividades_relevantes2|default:"-"}}</span>
+      <span>• {{pessoa.medicao_quantitativa_atividades_relevantes3|default:"-"}}</span>
+      <span>• {{pessoa.medicao_quantitativa_atividades_relevantes4|default:"-"}}</span>
+      <span>• {{pessoa.medicao_quantitativa_atividades_relevantes5|default:"-"}}</span>
+      <br>
+
+      <b>"Como você mede ou medirá QUALITATIVAMENTE cada atividade na Eicon"</b>
+      <span>• {{pessoa.medicao_qualitativa_atividades_relevantes1|default:"-"}}</span>
+      <span>• {{pessoa.medicao_qualitativa_atividades_relevantes2|default:"-"}}</span>
+      <span>• {{pessoa.medicao_qualitativa_atividades_relevantes3|default:"-"}}</span>
+      <span>• {{pessoa.medicao_qualitativa_atividades_relevantes4|default:"-"}}</span>
+      <span>• {{pessoa.medicao_qualitativa_atividades_relevantes5|default:"-"}}</span>
+      <br>
+    </section>
+
+    <!-- Dependentes -->
+    <br>
+    <h4>Dependentes</h4>
+    <br>
+    <section class="info-container">
+      {% for filho in pessoa.filho_set.all %}
+        <div>
+          <b>Nome:</b> {{filho.nome}} <br>
+          <b>Data de Nascimento:</b> {{filho.data_nascimento}} <br>
+          <br>
+        </div>
+      {% endfor %}
+
+      {% if not pessoa.filho_set.all %}
+        <div class="alert alert-dark">
+          Esse usuário não adicionou nenhum dependente
+        </div>
+      {% endif %}
+
+    </section>
+
+
+  </section>
+</section>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container no-bg section-competencias">
+        <!-- Avaliação -->
+                <a onclick="window.history.back();" href="#">
+                    <i class="fa fa-angle-left"></i> Voltar 
+                </a> 
+                <br>
+                <br>
+
+                <input type="hidden" disabled value={{avaliacao.id}} id="idAvaliacao">
+
+                <h4 class="mb-4">{{titulo}}</h4>
+
+                <input type="hidden" value="{{avaliacao.pessoa.id}}" id="idPessoaAvaliacao">
+
+                {% if avaliacao.tipo_avaliacao == "subordinado" %}
+                <div class="text-center mb-3">
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary">Competências</a>
+                        <a class="btn btn-outline-secondary" href="metas">Metas</a>
+                        <a class="btn btn-outline-secondary" href="potencial">Potencial</a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="bg-gray-simple rounded">
+                    <div class="row person-info">
+                        <div class="col-md-2 col-sm-3 d-flex">
+                            <div class="person-image rounded-circle" style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3   ">
+                            <b>{{avaliacao.pessoa.nome}}</b>
+                            <br>
+                            <small>{{avaliacao.pessoa.cargo}}</small>
+                            <br>
+                        </div>
+                        {% comment %} <div class="col-md-3 col-sm-3">
+                            <b>{{avaliacao.pessoa.cargo}}</b>
+                            <br>
+                            <small>{{avaliacao.pessoa.cargo.area_atuacao}}</small>
+                        </div> {% endcomment %}
+                        <div class="col-md-3 col-sm-3  col-diretoria">
+                            <b>Tempo de Empresa</b>
+                            <br>
+                            <small>{{avaliacao.pessoa.tempo_empresa}} </small>
+                        </div>
+                    </div>
+
+                    <br><br>
+
+                    <div>
+                        <h4>Eixo de Negócios</h4>
+
+                        <br>
+
+                        {% if avaliacao.quantidade_competencias_eixo_negocios == 0 %}
+                            <div class="alert alert-dark">
+                                Nenhuma competência foi adicionada a essa avaliação
+                            </div>
+                        {% endif %}
+
+                        {% for itemCompetencia in avaliacao.itemcompetencia_set.all %}
+                        {% if itemCompetencia.competencia.tipo == "N" %}
+
+                        {% if itemCompetencia.competencia.exibir_titulo %}
+                            <h6 class="{{itemCompetencia.competencia.exibir_titulo|yesno:'mt-5,'}}">
+                                <b>{{itemCompetencia}} -</b> {{itemCompetencia.competencia.explicativo_titulo}} 
+                            </h6>
+                            <br>
+                        {% endif %}
+
+                        <div class="card-competencia shadow p-3 mb-3 bg-white rounded" data-id-item-competencia="{{itemCompetencia.id}}" data-id-competencia="{{itemCompetencia.competencia.id}}">
+                            <small>
+                                {% if itemCompetencia.competencia.explicativo %}
+                                    <span>{{itemCompetencia.competencia.explicativo}}</span><br>
+                                {% endif %}
+                            </small>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="slider-container">
+                                        <input type="range" min="0" max="100" value="{{itemCompetencia.nota}}" class="slider">
+                                        <div class="indicator-container">
+                                            <span class="slider-indicator">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center legenda-regua">
+                                <div class="col-3">
+                                    <small>Raramente</small>
+                                    <br>
+                                    <small>0 - 25</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Ocasionalmente</small>
+                                    <br>
+                                    <small>26-50</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Constantemente</small>
+                                    <br>
+                                    <small>51-75</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Exacerbadamente</small>
+                                    <br>
+                                    <small>76-100</small>
+                                </div>
+                            </div>
+                            <p class="text-center container-status-regua">
+                                <b class="status-regua">Raramente</b>
+                            </p>
+                        </div>
+
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    <br>
+
+                    <div>
+                        <h4>Eixo de Pessoas</h4>
+
+                        {% if avaliacao.quantidade_competencias_eixo_pessoas == 0 %}
+                            <div class="alert alert-dark">
+                                Nenhuma competência foi adicionada a essa avaliação
+                            </div>
+                        {% endif %}
+
+                        {% for itemCompetencia in avaliacao.itemcompetencia_set.all %}
+                        {% if itemCompetencia.competencia.tipo == "P" %}
+
+                        {% if itemCompetencia.competencia.exibir_titulo %}
+                            <h6 class="{{itemCompetencia.competencia.exibir_titulo|yesno:'mt-5,'}}">
+                                <b>{{itemCompetencia}} -</b> {{itemCompetencia.competencia.explicativo_titulo}} 
+                            </h6>
+                            <br>
+                        {% endif %}
+
+                        <div class="card-competencia shadow p-3 mb-3 bg-white rounded" data-id-item-competencia="{{itemCompetencia.id}}" data-id-competencia="{{itemCompetencia.competencia.id}}">
+                            <small>
+                                {% if itemCompetencia.competencia.explicativo %}
+                                    <span>{{itemCompetencia.competencia.explicativo}}</span><br>
+                                {% endif %}
+                            </small>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="slider-container">
+                                        <input type="range" min="0" max="100" value="{{itemCompetencia.nota}}" class="slider">
+                                        <div class="indicator-container">
+                                            <span class="slider-indicator">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row text-center legenda-regua">
+                                <div class="col-3">
+                                    <small>Raramente</small>
+                                    <br>
+                                    <small>0 - 25</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Ocasionalmente</small>
+                                    <br>
+                                    <small>26-50</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Constantemente</small>
+                                    <br>
+                                    <small>51-75</small>
+                                </div>
+                                <div class="col-3">
+                                    <small>Exarcebadamente</small>
+                                    <br>
+                                    <small>76-100</small>
+                                </div>
+                            </div>
+                            <p class="text-center container-status-regua">
+                                <b class="status-regua">Raramente</b>
+                            </p>
+                        </div>
+
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    <br>
+
+                    <b>Comentário</b>
+                    <br>
+                    <br>
+                    <textarea name="comentario" id="comentario" class="form-control" rows="7" placeholder="Digite o comentário para a avaliação">{{avaliacao.comentario|default_if_none:""}}</textarea>
+
+                </div>
+        <br>
+        <button class="btn btn-primary float-right btn-avancar" id="btnSalvarCompetencias">Salvar</button>
+        <button class="btn btn-secondary float-right mr-2" id="btnFinalizarCompetencias">Salvar e Finalizar</button>
+    </section>
+</section>
+{% endblock %}

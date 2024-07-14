@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+  <section class="data-form-container">
+    <!-- Dados Pessoais -->
+    <h4>Teste Escrito</h4>
+    
+    <div class="form-content">
+
+    <input type="hidden" id="idTeste" value="{{teste.id}}">
+
+    {% for resposta in teste.resposta_set.all %}
+
+
+      <label>{{resposta.afirmativa.ordem}}. {{resposta.afirmativa.afirmativa}}</label>
+
+      <br>
+
+      <textarea rows="9" class="form-control" readonly placeholder="Insira sua resposta">{{resposta.resposta|default:'Não respondida'}}</textarea>
+
+      {% if resposta.midia %}
+        <div class="midia-container" data-midia="{{resposta.midia.url}}">
+          <div class="alert alert-dark mt-4">
+            <span class="media-title">Mídia do Candidato</span>
+            <div class="float-right">
+              <a href="#" class="btn-see-media btn-experiencia">Ver</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      <br>
+      <hr>
+    {% endfor %}
+
+    {% if not teste.respondido %}
+      <div class="alert alert-dark">Esse usuário ainda não respondeu ao teste escrito</div>
+    {% endif %}
+
+    {% if teste.marcar_entrevista %}
+      <small class="float-right">A entrevista para esse teste já foi agendada</small>
+    {% else %}
+      <button class="btn btn-primary float-right" id="btnAgendarEntrevista">Agendar Entrevista</button>
+      <button class="btn btn-danger float-right mr-2" id="btnReprovarTeste">Reprovar</button>
+    {% endif %}
+
+  </section>
+</section>
+{% endblock %}

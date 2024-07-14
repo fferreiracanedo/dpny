@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container no-bg">
+
+        <h3>{{titulo}}</h3>
+
+        <div class="float-right">
+            <b>Total: </b> <span>{{total_avaliacoes}}</span> <br>
+            <span class="text-danger">
+                <b class="text-danger">Pendentes:</b>
+                {{avaliacoes_pendentes.count}}
+            </span>
+        </div>
+
+        <br>
+        <br>
+
+        <nav>
+            <div class="nav nav-tabs nav-avaliacoes">
+                <a class="nav-item nav-link active" id="navPendentes" data-toggle="tab" href="#nav-pendentes" role="tab"
+                    aria-controls="nav-pendentes" aria-selected="true">Pendentes</a>
+                <a class="nav-item nav-link" id="navAvaliados" data-toggle="tab" href="#nav-avaliados" role="tab"
+                    aria-controls="nav-avaliados" aria-selected="false">Avaliados</a>
+            </div>
+        </nav>
+
+        <div class="tab-content bg-gray-simple">
+
+            <!-- Pendentes -->
+            <div class="tab-pane fade show active" id="nav-pendentes" role="tabpanel" aria-labelledby="navPendentes">
+                {% if avaliacoes_pendentes.count == 0 %}
+                    <div class="alert alert-dark">
+                        Não existem avaliações pendentes
+                    </div>
+                {% endif %}
+                {% for avaliacao in avaliacoes_pendentes %}
+                    {% if not avaliacao.respondida %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}">
+                        <div class="card-right">
+                            <div class="user-photo" style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');"></div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                        {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                        Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-left">
+                            {% comment %} <div class="separator"></div>
+                            <div class="percent-container">
+                                <b>{{avaliacao.pessoa.cargo}}</b>
+                                <br>
+                                <small>{{avaliacao.pessoa.cargo.area_atuacao}}</small>
+                            </div>
+                            <div class="separator"></div> {% endcomment %}
+                            <div class="col-btn-avaliar">
+                                <a class="btn btn-block btn-avaliar" href="{{avaliacao.id}}/competencias">Avaliar</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Avaliados -->
+
+            <div class="tab-pane fade" id="nav-avaliados" role="tabpanel" aria-labelledby="navAvaliados">        
+                {% if avaliacoes_concluidas.count == 0 %}
+                    <div class="alert alert-dark">
+                        Você ainda não concluiu nenhuma avaliação
+                    </div>
+                {% endif %}
+                {% for avaliacao in avaliacoes_concluidas %}
+                    {% if avaliacao.respondida %}
+                    <div class="card-candidato card-yellow" data-id="{{avaliacao.pessoa.id}}">
+                        <div class="card-right">
+                            <div class="user-photo" style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');"></div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                        {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                        Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-left">
+                            {% comment %} <div class="separator"></div> {% endcomment %}
+                            {% comment %} <div class="percent-container">
+                                <b>{{avaliacao.pessoa.cargo}}</b>
+                                <br>
+                                <small>{{avaliacao.pessoa.cargo.area_atuacao}}</small>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="separator"></div> {% endcomment %}
+                            <div class="col-btn-avaliar">
+                                <a class="btn btn-block btn-avaliar" href="{{avaliacao.id}}/competencias">Editar</a>
+                                <small>Avaliado em {{avaliacao.data|date:'d/m/Y'}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </section>
+</section>
+{% endblock %}

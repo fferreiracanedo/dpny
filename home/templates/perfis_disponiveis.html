@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="main-form d-flex flex-fill justify-content-center">
+    <div class="data-form-container">
+        <h4>Perfis</h4>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cargo</th>
+                        <th>Atividades</th>
+                        <th>Benefícios</th>
+                        <th width="1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for perfil in perfis %}
+                    <tr>
+                        <td>{{perfil.id}}</td>
+                        <td>{{perfil.nome}}</td>
+                        <td>{{perfil.cargo.atividades}}</td>
+                        <td>{{perfil.beneficios|default_if_none:'-'}}</td>
+                        <td>
+                            {% if user.is_staff %}
+                                <a class="btn btn-primary" href="/ranking/{{perfil.id}}">Ver Ranking</a>
+                            {% else %}
+                                <a class="btn btn-primary" href="{% url 'correlacionar' perfil.id %}">Candidatar-se</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if not perfis %}
+                <div class="alert alert-dark">Ainda não existem perfis disponiveis</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load home_tag %}
+{% load bootstrap %}
+
+
+{% block main %}
+<!-- Teste Escrito -->
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false">
+    <section class="data-form-container" id="rankingCandidatos">
+
+        <a onclick="window.history.back();" href="#">
+            <i class="fa fa-angle-left"></i> Voltar 
+        </a> 
+        <br>
+        <br>
+
+        <h4>Ranking de Candidatos</h4>
+        <br>
+
+        {% comment %} <a" class="list-group-item">
+            <i class="fa fa-user fa-fw"></i> {{ ranking.pessoa.foto }}
+            <span class="pull-right text-muted small"><em></em>
+            </span>
+        </a> {% endcomment %}
+
+        {% for ranking in ranking_final %}
+
+            <div class="card-candidato {% if ranking.pontuacao < '50' %}card-yellow{% endif %}" data-id="{{ranking.id_pessoa}}">
+                <div class="card-right">
+                    <div class="user-photo"
+                        style="background-image: url(' {% if ranking.foto %} {{ranking.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                    </div>
+                    <div class="ml-4">
+                        <span>{{ranking.pessoa}}</span>
+                        <br>
+                        <small>
+                            {% if ranking.cargo %}
+                                {{ranking.cargo}}
+                            {% else %}
+                                Candidato
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+                <div class="card-left">
+                    <div class="separator"></div>
+                    <div class="percent-container">
+                        <b>{{ ranking.pontuacao }}%</b>
+                        <br>
+                        <small>Pontuação</small>
+                    </div>
+                    <div class="separator"></div>
+                    {% comment %} <div class="col-btn-avaliar"> {% endcomment %}
+                        {% comment %} <a class="btn btn-block btn-avaliar" href="{{ranking.id}}/competencias">Editar</a> {% endcomment %}
+                        {% comment %} <a class="btn btn-block btn-avaliar" href="{% url 'analise' ranking.id %}">Avaliar</a> {% endcomment %}
+                        {% comment %} <small>Avaliado em {{ranking.data|date:'d/m/Y'}}</small> {% endcomment %}
+                    {% comment %} </div> {% endcomment %}
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+</form>
+{% endblock %}

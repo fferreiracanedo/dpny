@@ -1,0 +1,123 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% load dashboard_tag %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% block extrahead %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    .form-filter .form-group {
+        min-height: 60px;
+    }
+
+    .coluna-filtro {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+
+    .filtro {
+        vertical-align: bottom;
+    }
+</style>
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Estatística por Liderado na Avaliação de Pares</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-filter"></i> Filtros
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form id="filtro_avaliacao_individual" class="form-filter" action="{% url 'relatorio_estatistica_liderados' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group col-sm-12 col-md-10 col-lg-10">
+                        <label for="gestor">Gestores</label>
+                        <select class="form-control form-control-lg" id="gestor" name="gestor" required="required">
+                            <option value="">Todos</option>
+                            {% for gestor in lideres %}
+                            <option value="{{gestor.id}}">{{gestor.pessoa.nome}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-2 col-lg-2 coluna-filtro">
+                        <button type="submit" class="filtro btn btn-primary btn-block">Exibir</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-primary" onclick="exportF(this)">Gerar Excel</a>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-tasks fa-fw"></i> Resultado
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="table">
+                        <thead>
+                            <tr>
+                                <td>Pessoa</td>
+                                <td>Total de Avaliações</td>
+                                <td>Média Geral</td>
+                                <td>Maior Nota</td>
+                                <td>Menor Nota</td>
+                            </tr>
+                        </thead>
+                      <tbody>
+                            {% for resultado in resultado_final %}
+                                <tr>
+                                    <td>{{resultado.pessoa}}</td>
+                                    <td>{{resultado.total}}</td>
+                                    <td>{{resultado.media|floatformat:2}}</td>
+                                    <td>{{resultado.maior_nota.nota_competencias}}</td>
+                                    <td>{{resultado.menor_nota.nota_competencias}}</td>
+                                </tr>   
+                            {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+<script>
+    function exportF(elem) {
+        var table = document.getElementById("table");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+</script>
+{% endblock extrajs %}

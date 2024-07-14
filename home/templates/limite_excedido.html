@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Gestor de RH - Área Pessoal {% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'home' %}">Home</a></li>
+      </ol>
+    </nav>
+{% endblock %}
+
+{% block titulo_conteudo %}
+    Limite Atingido!
+{% endblock %}
+
+{% block main %}
+    <p>
+        O limite de correlações foi atingido, entre em contato com o administrador do sistema!
+    </p>
+{% endblock %}

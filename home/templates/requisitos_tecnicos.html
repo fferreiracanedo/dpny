@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false">
+    <section class="data-form-container" id="formRequisitos">
+
+        <h4>Requisitos Técnicos</h4>
+        <div class="form-content">
+
+            <div class="requisitos-cards-container">
+
+                {% for requisito_tecnico in requisitos_tecnicos %}
+
+                    <div class="card-requisito" data-id="{{requisito_tecnico.id}}"
+                    {% if requisito_tecnico in pessoa.requisitos_tecnicos.all %}
+                        data-selected
+                    {%  endif %}
+                    >
+                        <div class="card-left">
+                            <div class="indicator-square"></div>
+                        </div>
+                        <div class="card-right">{{requisito_tecnico.nome}}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <br>
+
+            <label for="habilidades">Descreva outras habilidades técnicas (preenchimento não obrigatório):</label>
+            <br>
+            <textarea id="habilidades" rows="10" class="form-control"
+                placeholder="Assembly, Matlab, Objective-C, C++, Phyton">{{pessoa.habilidades_tecnicas|default_if_none:''}}</textarea>
+
+        </div>
+
+        <button class="btn btn-primary btn-avancar btn-submit-requisitos mt-4 float-right">Salvar</button>
+    </section>
+
+</form>
+{% endblock %}

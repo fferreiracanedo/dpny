@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Gestor de RH - Área Pessoal {% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'home' %}">Home</a></li>
+      </ol>
+    </nav>
+{% endblock %}
+
+{% block titulo_conteudo %}
+    Dados pessoais não informados!
+{% endblock %}
+
+{% block main %}
+    <p>
+        Para prosseguir nesta etapa você precisa informar seus dados pessoais!
+        Por favor, preencha o formulário <a href="{% url 'dados' %}">aqui</a>!.
+    </p>
+{% endblock %}

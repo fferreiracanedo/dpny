@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% load humanize %}
+
+{% block main %}
+
+<!-- Idiomas -->
+<section class="main-form-submit d-flex flex-fill justify-content-center">
+    <section class="data-form-container fo">
+
+        <h3>Comitê</h3>
+
+        <br>
+        <div class="row" style="display: none;">
+            <table id="table_comite">
+                <tr>
+                    <td>Pessoa</td>
+                    <td>Nota</td>
+                    <td>Resposta</td>
+                    <td>Quadrante</td>
+                </tr>
+                {% for avaliacao in avaliacoes %}
+                    <tr>
+                        <td>{{avaliacao.pessoa}}</td>
+                        <td>{{avaliacao.nota_competencias_geral|floatformat:2}}</td>
+                        <td>{{avaliacao.resposta_potencial|default:'-'}}</td>
+                        <td>{{avaliacao.get_resultado_comite_display}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <form class="form-filter" action="{% url 'comite' %}" method="get">
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <input type="text" class="form-control" placeholder="Busque por pessoa" name="pessoa" id="pessoa" value="{{pessoa}}" />
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <select name="quadrante" id="quadrante" class="form-control">
+                                <option value="">Todos os Quadrantes</option>
+                                <option value="TRA" {% if quadrante == 'TRA' %} selected {% endif %}>Transição</option>
+                                <option value="ATI" {% if quadrante == 'ATI' %} selected {% endif %}>Atenção Imediata</option>
+                                <option value="DES" {% if quadrante == 'DES' %} selected {% endif %}>Desenvolvimento</option>
+                                <option value="EST" {% if quadrante == 'EST' %} selected {% endif %}>Estável</option>
+                                <option value="CON" {% if quadrante == 'CON' %} selected {% endif %}>Consistente</option>
+                                <option value="SUC" {% if quadrante == 'SUC' %} selected {% endif %}>Sucessor</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <input type="text" class="form-control" placeholder="Busque pelo líder" name="lider" id="lider" value="{{lider}}" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-2 col-lg-2 coluna-filtro">
+                            <button type="submit" class="filtro btn btn-primary btn-block">Filtrar</button>
+                        </div>
+                    </div>
+                </form> 
+                <hr>
+                <a class="btn btn-primary" onclick="exportF(this)">Exportar para Excel</a>
+                <br/><br/>
+            </div>
+        </div>
+
+        <!-- Pendentes -->
+        {% if avaliacoes.count == 0 %}
+            <div class="alert alert-dark">
+                Não existem avaliações pendentes
+            </div>
+        {% else %}
+            <h4>Transição</h4>
+            {% if quantidade_transicao == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "TRA" or avaliacao.resultado_comite == "" or avaliacao.resultado_comite == Null %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #C9C9C9;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h4>Atenção Imediata</h4>
+            {% if quantidade_atencao_imediata == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "ATI" %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #D0CECE;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h4>Em Desenvolvimento</h4>
+            {% if quantidade_desenvolvimento == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "DES" %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #345595;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h4>Estável</h4>
+            {% if quantidade_estavel == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "EST" %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #232A35;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h4>Consistente</h4>
+            {% if quantidade_consistente == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "CON" %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #343F4F;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <h4>Sucessor</h4>
+            {% if quantidade_sucessor == 0 %}
+                <div class="alert alert-dark">
+                    Não existem avaliações pendentes
+                </div>
+            {% endif %}
+            {% for avaliacao in avaliacoes %}
+                {% if avaliacao.resultado_comite == "SUC" %}
+                    <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}" data-id-avaliacao="{{avaliacao.id}}" style="border-left: 10px solid #BF0000;">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{avaliacao.pessoa.nome_abreviado}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                    {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                    Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.nota_competencias_geral|floatformat:2}}</b>
+                                <br>
+                                <small>Nota</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-0" style="width: 100px">
+                                <b>{{avaliacao.resposta_potencial|default:'-'}}</b>
+                                <br>
+                                <small>Resposta</small>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                <select class="form-control" onclick="event.stopPropagation();">
+                                    <option value="" disabled >Resultado do Comitê</option>
+                                    <option value="TRA" {% if avaliacao.resultado_comite == "TRA" %} selected {% endif %}>Transição</option>
+                                    <option value="ATI" {% if avaliacao.resultado_comite == "ATI" %} selected {% endif %}>Atenção Imediata</option>
+                                    <option value="DES" {% if avaliacao.resultado_comite == "DES" %} selected {% endif %}>Em desenvolvimento</option>
+                                    <option value="EST" {% if avaliacao.resultado_comite == "EST" %} selected {% endif %}>Estável</option>
+                                    <option value="CON" {% if avaliacao.resultado_comite == "CON" %} selected {% endif %}>Consistente</option>
+                                    <option value="SUC" {% if avaliacao.resultado_comite == "SUC" %} selected {% endif %}>Sucessor</option>
+                                </select>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 70px">
+                                <button class="btn btn-block btn-avaliar btn-avaliar-comite">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </section>
+</section>
+<script>
+    function exportF(elem) {
+        var table = document.getElementById("table_comite");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+</script>
+{% endblock %}

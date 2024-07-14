@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<form class="main-form d-flex flex-fill justify-content-center" method="post" autocomplete="false" action="{% url 'cursos' %}">
+    {% csrf_token %}
+    <section class="data-form-container" id="formCursos">
+        <h4>Cursos e Certificações</h4>
+            <div class="form-content">
+                {% if cursos %}
+                    {% for curso in cursos %}
+                        <div class="fields-container" data-index="{{curso.id}}" {% if curso.certificado %} data-midia='{{curso.certificado.url}}' {% endif%}>
+                            <div class="form-group mt-3">
+                                <label>Instituição</label>
+                                <input name="instituicao" type="text" class="form-control" value="{{curso.instituicao|default_if_none:''}}" placeholder="Digite o nome da instituição">
+                            </div>
+            
+                            <div class="form-group">
+                                <label>Curso</label>
+                                <input type="text" name="curso" id="curso" class="form-control" value="{{curso.curso|default_if_none:''}}" placeholder="Digite o nome do curso">
+                            </div>
+            
+                            <div class="form-group">
+                                <label>Carga Horária (horas)</label>
+                                <input name="carga_horaria" type="text" class="form-control" value="{{curso.carga_horaria|default_if_none:''}}" placeholder="Digite a carga horária do curso">
+                            </div>
+            
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Data de Início</label>
+                                    <input name="data_inicio" type="date" class="form-control" value="{{curso.data_inicio|date:'Y-m-d'}}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Data de Término</label>
+                                    <input name="data_termino" type="date" class="form-control" value="{{curso.data_termino|date:'Y-m-d'}}">
+                                </div>
+                            </div>
+            
+                            <br>
+                            <br>
+                            <br>
+
+                            <h6>Certificado</h6>
+                            <p>**Para certificação é necessário comprovação com anexo</p>
+                            <div class="row media-container" data-form-id="formIdiomas">
+                              <div class="col-12">
+                                <button class="btn btn-secondary btn-block btn-carregar {{curso.certificado|yesno:'disabled, '}}">Carregar</button>
+                              </div>
+                            </div>
+            
+                            <div class="alert alert-dark mt-4 {{curso.certificado|yesno:' ,d-none'}}">
+                                <span class="media-title">Certificado</span>
+                                <div class="float-right">
+                                    <a href="#" class="btn-see-media">Ver</a>
+                                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                                <i class="icon-trash"></i>
+                                Remover
+                            </button>
+                            <br>
+                            <hr>
+                            <br>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="fields-container" data-index="0" data-new-form="true">
+                        <div class="form-group mt-3">
+                            <label>Instituição</label>
+                            <input name="instituicao" type="text" class="form-control" placeholder="Digite o nome da instituição">
+                        </div>
+        
+                        <div class="form-group">
+                                <label>Curso</label>
+                                <input type="text" name="curso" id="curso" class="form-control" placeholder="Digite o nome do curso">
+                            </div>
+        
+                        <div class="form-group">
+                            <label>Carga Horária (horas)</label>
+                            <input name="carga_horaria" type="text" class="form-control" placeholder="Digite a carga horária do curso">
+                        </div>
+        
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Data de Início</label>
+                                <input name="data_inicio" type="date" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="">Data de Término</label>
+                                <input name="data_termino" type="date" class="form-control">
+                            </div>
+                        </div>
+        
+                        <h6>Certificado</h6>
+                        <p>**Para certificação é necessário comprovação com anexo</p>
+                        <div class="row media-container" data-form-id="formIdiomas">
+                          <div class="col-12">
+                            <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                          </div>
+                        </div>
+        
+                        <div class="alert alert-dark mt-4 d-none">
+                            <span class="media-title">Certificado</span>
+                            <div class="float-right">
+                                <a href="#" class="btn-see-media">Ver</a>
+                                <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                            <i class="icon-trash"></i>
+                            Remover
+                        </button>
+                        <br>
+                        <hr>
+                        <br>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 btn-add-item" id="btnAddCurso">
+                <button class="btn btn-add" id="adicionar_form">+</button>
+                <span class="ml-3 add-text">Adicionar outro curso/certificação</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-submit-curso btn-avancar mt-4 float-right">Salvar</button>
+        </section>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+<p>
+    {{avaliacao.pessoa}}
+</p>
+
+{% for item_competencia in avaliacao.itemcompetencia_set.all %}
+    <p>
+        {{item_competencia}}
+    </p>
+{% endfor %}
+
+{% for item_potencial in avaliacao.itempotencial_set.all %}
+    <p>
+        {{item_potencial}}
+    </p>
+{% endfor %}
+
+{% for item_meta in avaliacao.itemmeta_set.all %}
+    <p>
+        {{item_meta}}
+    </p>
+{% endfor %}
+

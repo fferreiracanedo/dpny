@@ -1,0 +1,371 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<form class="main-form d-flex flex-fill justify-content-center" method="post" autocomplete="false">
+    <section class="data-form-container" id="formExperiencia">
+        <h4>Atuação profissional</h4>
+        <div class="form-content">
+            {% if experiencias %}
+            {% for experiencia in experiencias %}
+            <div class="fields-container" data-index="{{experiencia.id}}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Nome Empresa</label>
+                        <input name="empresa" type="text" value="{{experiencia.empresa|default_if_none:''}}" class="form-control"
+                            placeholder="Digite o nome da empresa">
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Cargo</label>
+                        <select name="cargo" id="cargo" class="form-control select-opcao-outro">
+                            <option value="">Selecione uma Opção</option>	
+                            {% for cargo in cargos %}	
+                            {{cargo}}
+                            <option value="{{cargo.id}}" {% if experiencia.cargo.id == cargo.id %} selected {% endif %}>{{cargo.titulo}}</option>	
+                            {% endfor %}	
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group select-outro {{experiencia.outro_cargo|yesno:' ,d-none'}} ">
+                    <label>Outro cargo</label>
+                    <input type="text" name="outro_cargo" class="form-control {{experiencia.outro_cargo|yesno:' ,no-validate'}}" placeholder="Digite o nome do cargo" value="{{ experiencia.outro_cargo|default_if_none:"" }}">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Data de Início</label>
+                        <input name="data_inicio" type="date" class="form-control"
+                            value="{{experiencia.data_inicio|date:'Y-m-d'}}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Data de Saída</label>
+                        <input name="data_termino" type="date" class="form-control"
+                            value="{{experiencia.data_termino|date:'Y-m-d'}}">
+                    </div>
+                    <div class="form-group col-md-4 d-flex align-items-center pt-4 pl-4">
+                        <input type="checkbox" name="cargo_atual" {% if experiencia.cargo_atual %} checked {% endif %}>
+                        <label class="mt-2 ml-2 lbl-cargo-atual">Cargo Atual</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                    <i class="icon-trash"></i>
+                    Remover
+                </button>
+                <hr class="mt-5 mb-5">
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="fields-container" data-index="0" data-new-form="true">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Nome Empresa</label>
+                        <input name="empresa" type="text" class="form-control" placeholder="Digite o nome da empresa">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Cargo</label>	
+                        <select name="cargo" id="cargo" class="form-control select-opcao-outro">	                        
+                            <option value="">Selecione uma Opção</option>	
+                            {% for cargo in cargos %}	
+                            <option value="{{cargo.id}}">{{cargo.titulo}}</option>	
+                            {% endfor %}	
+                        </select>
+                    </div
+                    >
+                </div>
+                <div class="form-group select-outro d-none ">
+                    <label>Outro cargo</label>
+                    <input type="text" name="outro_cargo" class="form-control no-validate" placeholder="Digite o nome do cargo">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Data de Início</label>
+                        <input name="data_inicio" type="date" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Data de Saída</label>
+                        <input name="data_termino" type="date" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4 d-flex align-items-center pt-4 pl-4">
+                        <input type="checkbox" name="cargo_atual">
+                        <label class="mt-2 ml-2 lbl-cargo-atual">Cargo Atual</label>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                    <i class="icon-trash"></i>
+                    Remover
+                </button>
+                <hr>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 btn-add-item" id="btnAddExperiencia">
+            <button class="btn btn-add" id="adicionar_form">+</button>
+            <span class="ml-3 add-text"> Adicionar outra experiência profissional</span>
+        </div>
+
+        <br>
+        <br>
+
+        {% if not pessoa.cargo %}
+        <div class="form-content container-midias">
+            <h6>Mídias</h6>
+            <p>Adicione ou crie um link para documentos, fotos, sites, apresentações e vídeos externos.</p>
+
+            {% if midias %}
+            {% for midia in midias %}
+            <div class="midia-container" data-id-midia="{{midia.id}}" {% if midia.arquivo %}
+                data-midia="{{midia.arquivo.url}}" {% endif %}>
+                <div class="row">
+                    <div class="col-6">
+                        <button
+                            class="btn disabled btn-secondary btn-block btn-carregar btn-experiencia">Carregar</button>
+                    </div>
+                    <div class="col-6">
+                        <button
+                            class="btn disabled btn-outline-secondary btn-block btn-media-link btn-experiencia">Link</button>
+                    </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 {% if not midia.arquivo %} d-none {% endif %}">
+                    <span class="media-title">{{midia.titulo}}</span>
+                    <span class="media-description d-none">{{midia.descricao}}</span>
+                    <div class="float-right">
+                        <a href="#" class="btn-see-media btn-experiencia">Ver</a>
+                        <a href="#" class="ml-4 btn-edit-media btn-experiencia">Editar</a>
+                        <div class="float-left mr-5">
+                            Adicionado em
+                            <span class="media-date">{{midia.data_criacao}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media-link mt-4 {% if not midia.link %} d-none {% endif %}">
+                    <div class="form-row">
+                        <div class="form-group col-md-11">
+                            <div class="label">Cole ou insira um link</div>
+                            <input name="link" type="text" {% if midia.link %} value="{{midia.link}}" {% endif %}
+                                class="form-control" placeholder="Insira o link da Mídia">
+                        </div>
+                        <div class="col-md-1 col-sm-4 ml-auto d-flex justify-content-center align-items-center btn-apagar-link"
+                            style="margin-top: 6px;">
+                            <button class="btn btn-block btn-danger btn-experiencia">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="midia-container" data-id-midia="0" data-new-media="true">
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-secondary btn-block btn-carregar btn-experiencia">Carregar</button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-outline-secondary btn-block btn-media-link btn-experiencia">Link</button>
+                    </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 d-none">
+                    <span class="media-title">[Titulo da Mídia]</span>
+                    <span class="media-description d-none"></span>
+                    <div class="float-right">
+                        <a href="#" class="btn-see-media btn-experiencia">Ver</a>
+                        <a href="#" class="ml-4 btn-edit-media btn-experiencia">Editar</a>
+                        <div class="float-left mr-5">
+                            Adicionado em
+                            <span class="media-date">[Data]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media-link mt-4 d-none">
+                    <div class="form-row">
+                        <div class="form-group col-md-11">
+                            <div class="label">Cole ou insira um link</div>
+                            <input name="link" type="text" {% if midia.link %} value="{{midia.link}}" {% endif %}
+                                class="form-control" placeholder="Insira o link da Mídia">
+                        </div>
+                        <div class="col-md-1 col-sm-4 ml-auto d-flex justify-content-center align-items-center btn-apagar-link"
+                            style="margin-top: 6px;">
+                            <button class="btn btn-block btn-danger btn-experiencia">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 btn-add-item" id="btnAddMidiaExperiencia">
+            <button class="btn btn-add">+</button>
+            <span class="ml-3 add-text">Adicionar outra mídia</span>
+        </div>
+
+        <br>
+        <br>
+
+        {% endif %}
+
+        {% if pessoa.cargo %}
+
+        <div class="perguntas-experiencia form-content">
+
+            <h4>Cargo atual</h4>
+
+            <br>
+
+            <div>
+                <label for="atividades">Descreva as 5 atividades mais relevantes de sua atuação na Eicon</label>
+
+                <br>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">1 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="atividades_relevantes1" value="{{ pessoa.atividades_relevantes1|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">2 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="atividades_relevantes2" value="{{ pessoa.atividades_relevantes2|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">3 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="atividades_relevantes3" value="{{ pessoa.atividades_relevantes3|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">4 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="atividades_relevantes4" value="{{ pessoa.atividades_relevantes4|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">5 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="atividades_relevantes5" value="{{ pessoa.atividades_relevantes5|default_if_none:"" }}">
+                </div>
+                
+            </div>
+
+            <br>     
+            
+            <div>
+                <label for="quantitativa">Como você mede ou medirá QUANTITATIVAMENTE cada atividade na Eicon</label>
+
+                <br>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">1 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_quantitativa_atividades_relevantes1" value="{{ pessoa.medicao_quantitativa_atividades_relevantes1|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">2 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_quantitativa_atividades_relevantes2" value="{{ pessoa.medicao_quantitativa_atividades_relevantes2|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">3 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_quantitativa_atividades_relevantes3" value="{{ pessoa.medicao_quantitativa_atividades_relevantes3|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">4 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_quantitativa_atividades_relevantes4" value="{{ pessoa.medicao_quantitativa_atividades_relevantes4|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">5 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_quantitativa_atividades_relevantes5" value="{{ pessoa.medicao_quantitativa_atividades_relevantes5|default_if_none:"" }}">
+                </div> 
+            </div>
+
+            <br>
+            
+            <div>
+                <label for="qualitativa">Como você mede ou medirá QUALITATIVAMENTE cada atividade na Eicon</label>
+
+                <br>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">1 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_qualitativa_atividades_relevantes1" value="{{ pessoa.medicao_qualitativa_atividades_relevantes1|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">2 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_qualitativa_atividades_relevantes2" value="{{ pessoa.medicao_qualitativa_atividades_relevantes2|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">3 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_qualitativa_atividades_relevantes3" value="{{ pessoa.medicao_qualitativa_atividades_relevantes3|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">4 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_qualitativa_atividades_relevantes4" value="{{ pessoa.medicao_qualitativa_atividades_relevantes4|default_if_none:"" }}">
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">5 - </div>
+                    </div>
+                    <input type="text" class="form-control" name="medicao_qualitativa_atividades_relevantes5" value="{{ pessoa.medicao_qualitativa_atividades_relevantes5|default_if_none:"" }}">
+                </div> 
+
+            </div>
+        </div>
+
+        <small class="float-right mt-4">* Correlacionar as atividades realizadas no atual cargo Eicon, com as medições qualitativas e quantitativas correspondestes a cada atividade.</small>
+
+        {% endif %}
+
+        <br>
+        <br>
+
+        <button type="submit"
+            class="btn btn-primary btn-submit-experiencia btn-avancar mt-4 float-right">Salvar</button>
+    </section>
+</form>
+{% endblock %}

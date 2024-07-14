@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% load humanize %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container no-bg">
+        <div class="row">
+            <div class="col-12">
+                <section class="data-form-container section-metas no-bg">
+                    <a onclick="window.history.back();" href="#">
+                        <i class="fa fa-angle-left"></i> Voltar 
+                    </a> 
+                    <br>
+                    <br>
+        
+                
+            
+                        <h4>Resultado da Avaliação - {{pessoa}}</h4>
+                        <br>
+            
+                        <div class="avaliacoes d-flex flex-wrap justify-content-center">
+                        <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                            <b>Autoavaliação</b>
+            
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div class="
+                                    c100 
+                                    p{{autoavaliacao}} 
+                                    {% if autoavaliacao is 0 %} red 
+                                    {% elif autoavaliacao is 100 %} green
+                                    {% else %} yellow {% endif %} 
+                                ">
+                                <span>
+                                {{autoavaliacao}}
+                                </span>
+                                <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                                </div>
+                            </div>
+            
+                            </div>
+            
+                        </div>
+            
+                        <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                            <b>Avaliação Gestor</b>
+            
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div class="
+                                    c100 
+                                    p{{gestor}} 
+                                    {% if gestor is 0 %} red 
+                                    {% elif gestor is 100 %} green
+                                    {% else %} yellow {% endif %} 
+                                ">
+                                <span>
+                                {{gestor}}
+                                </span>
+                                <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                                </div>
+                            </div>
+            
+                            </div>
+                        </div>
+            
+                        <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                            <b>Avaliação Subordinados</b>
+            
+                            <div class="d-flex flex-wrap justify-content-center">
+                            <div class="
+                                c100 
+                                p{{subordinados}} 
+                                {% if subordinados is 0 %} red 
+                                {% elif subordinados is 100 %} green
+                                {% else %} yellow {% endif %} 
+                            ">
+                                <span>
+                                {{subordinados}}
+                                </span>
+                                <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                                </div>
+                            </div>
+            
+                            </div>
+                        </div>
+            
+                        <div class="avaliacao shadow p-3 mb-3 bg-white m-2">
+                            <b>Avaliação de Pares / Clientes Internos</b>
+            
+                            <div class="d-flex flex-wrap justify-content-center">
+                                <div class="
+                                    c100 
+                                    p{{pares}} 
+                                    {% if pares is 0 %} red 
+                                    {% elif pares is 100 %} green
+                                    {% else %} yellow {% endif %} 
+                                ">
+                                <span>
+                                {{pares}}
+                                </span>
+                                <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12">
+                <ul class="nav nav-tabs nav-avaliacoes" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="competencias-tab" data-toggle="tab" href="#competencias" role="tab" aria-controls="competencias" aria-selected="true">Competências</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="metas-tab" data-toggle="tab" href="#metas" role="tab" aria-controls="metas" aria-selected="false">Metas</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="competencias" role="tabpanel" aria-labelledby="competencias-tab">
+                        <div class="data-form-container" style="width: 100% !important;">
+                            <h4>Eixo Negócios</h4>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered" id="table_competencias_negocios">
+                                    <thead>
+                                        <tr>
+                                            <th>Competência</th>
+                                            <th>Autoavaliação</th>
+                                            <th>Gestor</th>
+                                            <th>Pares</th>
+                                            <th>Subordinados</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in itens_competencia %}
+                                            {% if item.competencia.tipo == 'N' %}
+                                                <tr>
+                                                    <td>{{item.competencia}}</td>
+                                                    <td>{{item.autoavaliacao|floatformat:2}}</td>
+                                                    <td>{{item.gestor|floatformat:2}}</td>
+                                                    <td>{{item.pares|floatformat:2}}</td>
+                                                    <td>{{item.subordinados|floatformat:2}}</td>
+                                                    <td>{{item.total|floatformat:2}}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <h4>Eixo Pessoas</h4>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered" id="table_competencias_pessoas">
+                                    <thead>
+                                        <tr>
+                                            <th>Competência</th>
+                                            <th>Autoavaliação</th>
+                                            <th>Gestor</th>
+                                            <th>Pares</th>
+                                            <th>Subordinados</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in itens_competencia %}
+                                            {% if item.competencia.tipo == 'P' %}
+                                                <tr>
+                                                    <td>{{item.competencia}}</td>
+                                                    <td>{{item.autoavaliacao|floatformat:2}}</td>
+                                                    <td>{{item.gestor|floatformat:2}}</td>
+                                                    <td>{{item.pares|floatformat:2}}</td>
+                                                    <td>{{item.subordinados|floatformat:2}}</td>
+                                                    <td>{{item.total|floatformat:2}}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="metas" role="tabpanel" aria-labelledby="metas-tab">
+                        <div class="data-form-container" style="width: 100% !important;">
+                            <h4>Metas</h4>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Meta</th>
+                                            <th>Descritivo</th>
+                                            <th>Resultado Esperado</th>
+                                            <th>Resultado Atingido</th>
+                                            <th>Atingimento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in itens_meta %}
+                                            <tr>
+                                                <td>{{item.meta}}</td>
+                                                <td>{{item.explicativo}}</td>
+                                                <td>{{item.resultado_esperado}}</td>
+                                                <td>{{item.resultado_atingido}}</td>
+                                                <td>{{item.atingimento}}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% if not itens_meta %}
+                                    <div class="alert alert-dark">Ainda não existem metas cadastradas.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<script>
+    function exportF(elem) {
+        var table = document.getElementById("table_competencias_negocios");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+
+    function exportFPessoas(elem) {
+        var table = document.getElementById("table_competencias_pessoas");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+</script>
+{% endblock %}

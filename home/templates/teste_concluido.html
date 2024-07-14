@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %} Gestor de RH - Área Pessoal {% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'home' %}">Home</a></li>
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'teste_psicologico' %}">Teste Comportamental</a></li>
+      </ol>
+    </nav>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-sm-12 col-lg-6 col-md-6">
+            <h3 class="display-8">
+                Concluído com sucesso!
+            </h3>
+            <p>
+                Obrigado por responder nosso teste comportamental!
+            </p>
+            <p>
+                Agora, correlacione seus dados com os perfis disponíveis no menu superior.
+            </p>
+            <hr class="my-4">
+        </div>
+
+        <div class="col-sm-12 col-lg-6 col-md-6">
+            <h3 class="display-8">
+                Cargos Indicados!
+            </h3>
+            <p>Aqui estão os cargos que mais se encaixam no seu perfil.</p>
+            <hr class="my-4">
+
+            {% if not pre_analises %}
+                <p>
+                    Você ainda não possui pré-análises, preencha seus dados pessoais para que possamos
+                    avaliá-lo.
+                </p>
+            {% endif %}
+            {% for pre_analise in pre_analises %}
+                <div class="card text-white bg-info mb-3" style="width: 100%;">
+                    <div class="card-header">{{ pre_analise.nota_total }} - {{ pre_analise.cargo }}</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            {{ pre_analise.descricao }}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

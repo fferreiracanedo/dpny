@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Gestor de RH - Área Pessoal {% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'home' %}">Home</a></li>
+          <li class="breadcrumb-item" aria-current="page"><a href="{% url 'trilha' %}">Trilha</a></li>
+      </ol>
+    </nav>
+{% endblock %}
+
+{% block titulo_conteudo %}
+    Cursos e Treinamentos Disponíveis!
+{% endblock %}
+
+{% block main %}
+    <div class="list-group">
+        {% for treinamento in treinamentos %}
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ treinamento.nome }}</h5>
+                </div>
+                <p class="mb-1">{{ treinamento.descricao }}</p>
+                <hr>
+                <a class="btn btn-info btn-block" href="{% url 'treinamento' treinamento=treinamento.id %}">Iniciar</a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

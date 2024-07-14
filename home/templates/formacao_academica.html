@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<form class="main-form d-flex flex-fill justify-content-center" method="post" autocomplete="false" action="{% url 'formacao_academica' %}">
+    {% csrf_token %}
+    <section class="data-form-container" id="formFormacaoAcademica">
+        <h4>Formação Acadêmica</h4>
+        <div class="form-content">
+            {% if formacoes %}
+                {% for formacao in formacoes %}
+                    <div class="fields-container" data-index="{{formacao.id}}" {% if formacao.certificado %} data-midia='{{formacao.certificado.url}}' {% endif%}>
+                        <div class="form-row">
+                          <div class="form-group col-md-5">
+                            <label>Nível de Escolaridade</label>
+                            <select name="nivel_escolaridade" class="form-control" name="escolaridade">
+                              <option value="" selected>Selecione o nível de escolaridade</option>
+                              <option value="Ensino Fundamental" {% if formacao.nivel_escolaridade == 'Ensino Fundamental' %} selected {% endif %}>Ensino Fundamental</option>
+                              <option value="Ensino Médio" {% if formacao.nivel_escolaridade == 'Ensino Médio' %} selected {% endif %}>Ensino Médio</option>
+                              <option value="Técnico" {% if formacao.nivel_escolaridade == 'Técnico' %} selected {% endif %}>Técnico</option>
+                              <option value="Graduação" {% if formacao.nivel_escolaridade == 'Graduação' %} selected {% endif %}>Graduação</option>
+                              <option value="Especialização" {% if formacao.nivel_escolaridade == 'Especialização' %} selected {% endif %}>Especialização</option>
+                              <option value="Mestrado" {% if formacao.nivel_escolaridade == 'Mestrado' %} selected {% endif %}>Mestrado</option>
+                              <option value="Doutorado" {% if formacao.nivel_escolaridade == 'Doutorado' %} selected {% endif %}>Doutorado</option>
+                            </select>
+                          </div>
+                        </div>
+        
+                        <div class="form-group col-curso">
+                            <label>Curso</label>
+                            <select name="curso" id="curso" class="form-control select-opcao-outro">
+                                <option value="">Selecione uma Opção</option>
+                                {% for item_curso in list_curso %}
+                                    <option value="{{item_curso.id}}" {% if formacao.curso.id == item_curso.id %} selected {% endif %}>{{item_curso.titulo}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group select-outro {{formacao.outro_curso|yesno:' ,d-none'}} ">
+                            <label>Outro curso</label>
+                            <input type="text" name="outro_curso" class="form-control {{formacao.outro_curso|yesno:' ,no-validate'}}" placeholder="Digite o nome do curso" value="{{ formacao.outro_curso|default_if_none:"" }}">
+                        </div>
+
+                        <div class="form-group">
+                          <label>Instituição</label>
+                          <input name="instituicao" type="text" class="form-control" value="{{formacao.instituicao|default_if_none:''}}" placeholder="Digite o nome da instituição">
+                        </div>
+        
+                        <div class="form-row">
+                          <div class="form-group col-md-5">
+                            <label>Situação</label>
+                            <select name="situacao" class="form-control">
+                              <option value="" selected>Selecione a situação</option>
+                              <option value="Cursando" {% if formacao.situacao == 'Cursando' %} selected {% endif %}>Cursando</option>
+                              <option value="Concluído" {% if formacao.situacao == 'Concluído' %} selected {% endif %}>Concluído</option>
+                              <option value="Trancado" {% if formacao.situacao == 'Trancado' %} selected {% endif %}>Incompleto</option>
+                            </select>
+                          </div>
+                        </div>
+        
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>Data de Início</label>
+                            <input name="data_inicio" type="date" class="form-control" value="{{formacao.data_inicio|date:'Y-m-d'}}">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Data de Término</label>
+                            <input name="data_termino" type="date" class="form-control" value="{{formacao.data_termino|date:'Y-m-d'}}">
+                          </div>
+                        </div>
+        
+                        <h6>Certificado</h6>
+                        <p>**Para certificação é necessário comprovação com anexo</p>
+                        <div class="row media-container" data-form-id="formIdiomas">
+                          <div class="col-12">
+                            <button class="btn btn-secondary btn-block btn-carregar {{formacao.certificado|yesno:'disabled,'}}">Carregar</button>
+                          </div>
+                        </div>
+        
+                        <div class="alert alert-dark mt-4 {{formacao.certificado|yesno:' ,d-none'}}">
+                            <span class="media-title">Certificado</span>
+                            <div class="float-right">
+                                <a href="#" class="btn-see-media">Ver</a>
+                                <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-outline-danger btn-remover btn-block mt-4 mb-4">
+                          <i class="icon-trash"></i>
+                          Remover
+                        </button>
+
+                        <br>
+                        <hr>
+                        <br>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="fields-container" data-index="0" data-new-form="true">
+
+                    <div class="form-row">
+                      <div class="form-group col-md-5">
+                        <label>Nível de Escolaridade</label>
+                        <select name="nivel_escolaridade" class="form-control">
+                          <option value="" selected >Selecione o nível de escolaridade</option>
+                          <option value="Ensino Fundamental">Ensino Fundamental</option>
+                          <option value="Ensino Médio">Ensino Médio</option>
+                          <option value="Técnico">Técnico</option>
+                          <option value="Graduação">Graduação</option>
+                          <option value="Especialização">Especialização</option>
+                          <option value="Mestrado">Mestrado</option>
+                          <option value="Doutorado">Doutorado</option>
+                        </select>
+                      </div>
+                    </div>
+    
+                    <div class="form-group col-curso">
+                        <label>Curso</label>
+                        <select name="curso" id="curso" class="form-control select-opcao-outro">
+                            <option value="">Selecione uma Opção</option>
+                            {% for item_curso in list_curso %}
+                                <option value="{{item_curso.id}}">{{item_curso.titulo}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group select-outro d-none">
+                        <label>Outro curso</label>
+                        <input type="text" name="outro_curso" class="form-control no-validate" placeholder="Digite o nome do curso">
+                    </div>
+    
+                    <div class="form-group">
+                      <label>Instituição</label>
+                      <input name="instituicao" type="text" class="form-control" placeholder="Digite o nome da instituição">
+                    </div>
+    
+                    <div class="form-row">
+                      <div class="form-group col-md-5">
+                        <label>Situação</label>
+                        <select name="situacao" class="form-control">
+                          <option value="" selected>Selecione a situação</option>
+                          <option value="Cursando">Cursando</option>
+                          <option value="Concluído">Concluído</option>
+                          <option value="Trancado">Incompleto</option>
+                        </select>
+                      </div>
+                    </div>
+    
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label>Data de Início</label>
+                        <input name="data_inicio" type="date" class="form-control">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Data de Término</label>
+                        <input name="data_termino" type="date" class="form-control">
+                      </div>
+                    </div>
+    
+                    <h6>Certificado</h6>
+                    <p>**Para certificação é necessário comprovação com anexo</p>
+                    <div class="row media-container" data-form-id="formIdiomas">
+                      <div class="col-12">
+                        <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                      </div>
+                    </div>
+    
+                    <div class="alert alert-dark mt-4 d-none">
+                        <span class="media-title">Certificado</span>
+                        <div class="float-right">
+                            <a href="#" class="btn-see-media">Ver</a>
+                            <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-danger btn-remover btn-block mt-4 mb-4">
+                      <i class="icon-trash"></i>
+                      Remover
+                    </button>
+                    <br>
+                    <hr>
+                    <br>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 btn-add-item" id="btnAddFormacao">
+            <button class="btn btn-add" id="adicionar_form">+</button>
+            <span class="ml-3 add-text">Adicionar outra formação</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-avancar btn-submit-formacao mt-4 float-right">Salvar</button>
+    </section>
+</form>
+{% endblock %}

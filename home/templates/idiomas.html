@@ -1,0 +1,110 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false">
+  <section class="data-form-container" id="formIdiomas">
+      <h4>Idiomas</h4>
+      <div class="form-content">
+          {% if idiomas %}
+            {% for idioma in idiomas %}
+              <div class="fields-container" data-index="{{idioma.id}}" {% if idioma.certificado %} data-midia='{{idioma.certificado.url}}' {% endif%}>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Idioma</label>
+                    <input name="idioma" type="text" class="form-control" value="{{idioma.idioma|default_if_none:''}}" placeholder="Digite o idioma">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Nível</label>
+                    <select name="nivel" class="form-control">
+                      <option value="">Selecione o Nível</option>
+                      <option value="BAS" {% if idioma.nivel == 'BAS' %} selected {% endif %}>Básico</option>
+                      <option value="BAI" {% if idioma.nivel == 'BAI' %} selected {% endif %}>Básico a Intermediário</option>
+                      <option value="INT" {% if idioma.nivel == 'INT' %} selected {% endif %}>Intermediário</option>
+                      <option value="AVA" {% if idioma.nivel == 'AVA' %} selected {% endif %}>Avançado</option>
+                      <option value="FLU" {% if idioma.nivel == 'FLU' %} selected {% endif %}>Fluente/Nativo</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h6>Certificado</h6>
+                <p>**Para certificação é necessário comprovação com anexo</p>
+                <div class="row media-container" data-form-id="formIdiomas">
+                  <div class="col-12">
+                    <button class="btn btn-secondary btn-block btn-carregar {{idioma.certificado|yesno:'disabled,'}}">Carregar</button>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 {{idioma.certificado|yesno:' ,d-none'}}">
+                  <span class="media-title">Certificado</span>
+                  <div class="float-right">
+                    <a href="#" class="btn-see-media">Ver</a>
+                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+                <hr class="mt-5 mb-5">
+              </div>
+            {% endfor %}
+          {% else %}
+              <div class="fields-container" data-index="0" data-new-form="true">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Idioma</label>
+                    <input name="idioma" type="text" class="form-control" placeholder="Digite o idioma">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Nível</label>
+                    <select name="nivel" class="form-control">
+                      <option value="">Selecione o Nível</option>
+                      <option value="BAS">Básico</option>
+                      <option value="BAI">Básico a Intermediário</option>
+                      <option value="INT">Intermediário</option>
+                      <option value="AVA">Avançado</option>
+                      <option value="FLU">Fluente/Nativo</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h6>Certificado</h6>
+                <p>**Para certificação é necessário comprovação com anexo</p>
+                <div class="row media-container" data-form-id="formIdiomas">
+                  <div class="col-12">
+                    <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 d-none">
+                  <span class="media-title">Certificado</span>
+                  <div class="float-right">
+                    <a href="#" class="btn-see-media">Ver</a>
+                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+                <br>
+                <hr>
+                <br>
+              </div>
+          {% endif %}
+      </div>
+
+      <div class="col-md-6 btn-add-item" id="btnAddIdioma">
+        <button class="btn btn-add">+</button>
+        <span class="ml-3 add-text">Adicionar outro idioma</span>
+      </div>
+
+      <button class="btn btn-primary btn-avancar btn-submit-idioma mt-4 float-right">Salvar</button>
+  </section>
+</form>
+{% endblock %}

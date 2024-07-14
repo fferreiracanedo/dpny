@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <script>
+    // Redireciona para Ranking caso seja gestor
+    var section = localStorage.getItem("menu_section");
+    if(section == "gestor"){
+      if(location.pathname == '/'){
+        location.href = "/perfis"
+      }
+    }
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#393939">
+  <!-- Main Style-->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" href="{% static 'css/circle.css' %}">
+  <link rel="stylesheet" media="(max-width: 820px)" href="{% static 'css/media-query.css' %}" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{% static 'libs/bootstrap/bootstrap.min.css' %}">
+  <!-- Simple Line Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+
+  <!-- Font Awesome -->
+  <script src="https://use.fontawesome.com/2d23da87f4.js"></script>
+
+  <title>Eicon</title>
+</head>
+
+<body>
+
+  <div class="page-container d-flex flex-column">
+
+    <input type="text" class="d-none" readonly disabled value="{{user.pessoa.id}}" id="idPessoa">
+
+    <!-- Navbar -->
+
+    <div class="pos-f-t navbar main-navbar navbar-dark">
+      <div class="navbar-brand">
+        <button class="navbar-toggler mr-4" type="button" data-toggle="collapse" data-target="#navbarCollapsible" aria-controls="navbarCollapsible" aria-expanded="false" aria-label="Alterna navegação">
+          <img src="{% static 'img/menu-button.svg' %}" width="30" alt="Eicon">
+        </button>
+        <a href="#" class="eicon-logo">
+          <img src="https://files.fm/thumb_show.php?i=349n8ne4ga" width="120" alt="Eicon">
+        </a>
+      </div>
+      <div class="navbar-brand">
+        <a href="#" class="sip-link">
+          <img src="{% static 'img/logo-sip.png' %}" alt="SipClick" class="mr-3">
+        </a>
+        {% if user.is_authenticated %}
+        <img src="{% static 'img/burguer-menu.png' %}" width="30" alt="Eicon" id="toggleSidebar">
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Collapsible -->
+    <div class="collapse section-selector" id="navbarCollapsible">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" data-sideview="candidato" href="#">Candidato / Funcionário</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-sideview="gestor" href="#">Gestor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">RH</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrapper d-flex flex-fill">
+      {% if user.is_authenticated %}
+
+      {% if esconder_sidebar is not True %}
+
+        {% block sidebar %}
+        {% include 'sidebar.html' %}
+        {% endblock %}
+
+      {% endif %}
+
+      {% endif %}
+
+
+      <!-- Forms -->
+      <div class="scrollbar">
+        {% block main %}
+
+        {% endblock %}
+      </div>
+
+      <!-- Modal Mídia -->
+      <div class="modal fade" id="modalMedia" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Mídia</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form onsubmit="return false">
+                <label for="mediaImageFile" id="mediaImageThumbnail">
+                  <div>
+                    <i class="icon-docs"></i>
+                    <br>
+                    <span>Arraste o arquivo para cá</span>
+                  </div>
+                  <span class="or-text">ou</span>
+                  <div>
+                    <label for="mediaImageFile" class="btn btn-secondary">Procurar arquivo</label>
+                  </div>
+                </label>
+                <input type="file" class="d-none" id="mediaImageFile" accept="image/*">
+                <div class="form-group">
+                  <label for="tituloMidia">Título</label>
+                  <input type="text" class="form-control" placeholder="Escreva o título da mídia" id="tituloMidia">
+                </div>
+                <div class="form-group">
+                  <label for="descricaoMidia">Descrição</label>
+                  <textarea type="text" class="form-control" placeholder="Escreva a descrição da mídia" rows="3"
+                    style="resize: none" id="descricaoMidia"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn mr-auto btn-secondary d-none" id="btnApagarMidia">Excluir essa
+                mídia</button>
+              <button type="button" class="btn btn-primary d-none" id="btnEditarMidia">Salvar Alterações</button>
+              <button type="button" class="btn btn-primary" id="btnSalvarMidia">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Imagem -->
+      <div class="modal fade" id="modalImagem" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Documento</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <img src="" alt="Documento" id="fotoDocumento">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger mr-auto" id="btnExcluirDocumento">Excluir</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BlueBird -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="{% static 'libs/jquery/jquery-3.4.1.min.js' %}"></script>
+  <!-- jQuery Mask -->
+  <script src="{% static 'libs/jquery-mask/jquery.mask.min.js' %}"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="{% static 'libs/bootstrap/bootstrap.min.js' %}"></script>
+  <!-- Sweet Alert -->
+  <script src="{% static 'libs/sweetalert/sweetalert.js' %}"></script>
+  <!-- Sweet Alert -->
+  <script src="{% static 'libs/malihu-scroll/jquery.mCustomScrollbar.min.js' %}"></script>
+  <!-- JS -->
+  <script src="{% static 'js/mediaModal.js' %}"></script>
+  <script src="{% static 'js/regua.js' %}"></script>
+
+  <!-- Form Controllers -->
+  <script src="{% static 'js/formDadosPessoais.js' %}"></script>
+  <script src="{% static 'js/formControllers/formAvaliacaoMetas.js' %}"></script>
+  <script src="{% static 'js/formControllers/formCursos.js' %}"></script>
+  <script src="{% static 'js/formControllers/formExperiencia.js' %}"></script>
+  <script src="{% static 'js/formControllers/formFormacaoAcademica.js' %}"></script>
+  <script src="{% static 'js/formControllers/formIdiomas.js' %}"></script>
+  <script src="{% static 'js/formControllers/formRequisitos.js' %}"></script>
+  <script src="{% static 'js/formControllers/formTeste.js' %}"></script>
+  <script src="{% static 'js/forms.js' %}"></script>
+
+  <script src="{% static 'js/sidebar.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'core/js/django_ajax.js' %}"></script>
+  {% block extra_js %}
+
+  {% endblock %}
+</body>
+
+</html>

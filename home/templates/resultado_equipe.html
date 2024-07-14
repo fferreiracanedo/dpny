@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container no-bg">
+        <h3>Resultados da Equipe</h3>
+        <br>
+        <div>
+            <div class="bg-gray-simple rounded">
+                {% if avaliacoes.count == 0 %}
+                    <div class="alert alert-dark">
+                        Não existem resultados para exibir
+                    </div>
+                {% endif %}
+                {% for avaliacao in avaliacoes %}
+                    <div class="card-candidato">
+                        <div class="card-right">
+                            <div class="user-photo" style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');"></div>
+                            <div class="ml-4">
+                                <span data-toggle="popover" data-placement="top" data-content='<div class="row"><div class="col-12"><a href="{% url 'resultado_avaliacao_individual' avaliacao.pessoa.id %}">Ver avaliação</a><hr></div><div class="col-12"><a href="{% url 'visualizar_pdi' avaliacao.pessoa.id %}">Ver PDI</a></div></div>'>{{avaliacao.pessoa}}</span>
+                                <br>
+                                <small>
+                                    {% if avaliacao.pessoa.cargo %}
+                                        {{avaliacao.pessoa.cargo}}
+                                    {% else %}
+                                        Candidato
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({
+                html : true, 
+            })
+        })
+    </script>
+{% endblock %}

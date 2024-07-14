@@ -1,0 +1,58 @@
+{% extends "account/base.html" %}
+{% load bootstrap %}
+{% load static %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}{% trans "Sign In" %}{% endblock %}
+
+{% block main %}
+
+<script>
+
+    localStorage.removeItem("menu_section")
+
+</script>
+
+<form class="login login-form" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    <h4>Fazer Login</h4>
+    <hr>
+    <div id="container-login">
+        {{ form|bootstrap }}
+        <div style="margin-top: -20px">
+            <input type="checkbox" id="privacidade">
+            <label for="privacidade">Aceito e concordo com os <a href="{% static 'img/privacidade.pdf' %}"  target="_blank">Termos e Políticas de Privacidade</a></label>
+        </div>
+        <br>
+    </div>
+
+    <span>
+        <a href="{% url 'password_reset' %}">Esqueci minha senha</a>
+    </span>
+
+    <br>
+    <br>
+
+    <div class="d-md-flex flex-row-reverse text-center justify-content-md-between">
+        <div>
+            <span>Cadastrado</span>
+            <br>
+            <button class="primaryAction btn btn-primary btn-block disabled" type="submit" id="btnLogin">{% trans "Sign In" %}</button>
+        </div>
+        <div class="linkedinLoginContainer">
+            <span>Cadastrar</span>
+            <a class="btn btn-secondary btn-linkedin btn-block" id="btnLinkedinLogin"
+                    href="{% url 'social:begin' 'linkedin-oauth2' %}">
+                    <i class="fa fa-linkedin"></i>
+            </a>
+        </div>
+    </div>
+    <hr>
+</form>
+<script>
+    document.getElementsByClassName('control-label')[0].innerHTML = "CPF"
+    document.getElementById('id_login').placeholder = "Digite seu CPF"
+</script>
+{% endblock %}

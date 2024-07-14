@@ -1,0 +1,156 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% load dashboard_tag %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% block extrahead %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+        ['Faixa Etária', 'Quantidade'],
+        ['Não Informado', {{nao_informado}}],
+        ['Até 20 anos', {{ate_20}}],
+        ['Entre 21 e 25 anos', {{entre_21_25}}],
+        ['Entre 26 e 30 anos', {{entre_26_30}}],
+        ['Entre 31 e 35 anos', {{entre_31_35}}],
+        ['Entre 36 e 40 anos', {{entre_36_40}}],
+        ['Entre 41 e 45 anos', {{entre_41_45}}],
+        ['Entre 46 e 50 anos', {{entre_46_50}}],
+        ['Entre 51 e 55 anos', {{entre_51_55}}],
+        ['Entre 56 e 60 anos', {{entre_56_60}}],
+        ['Acima de 60 anos', {{acima_60}}],
+    ]);
+
+    var options = {};
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+    }
+</script>
+{% endblock extrahead %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Inscritos por Faixa Etária</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-primary" onclick="exportF(this)">Gerar Excel</a>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-tasks fa-fw"></i> Resultado
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="table">
+                      <thead>
+                          <tr>
+                              <td>Faixa Etária</td>
+                              <td>Quantidade</td>
+                              <td>Porcentagem</td>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Não Informado</td>
+                              <td>{{nao_informado}}</td>
+                              <td>{{nao_informado|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Até 20 anos</td>
+                              <td>{{ate_20}}</td>
+                              <td>{{ate_20|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 21 e 25 anos</td>
+                              <td>{{entre_21_25}}</td>
+                              <td>{{entre_21_25|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 26 e 30 anos</td>
+                              <td>{{entre_26_30}}</td>
+                              <td>{{entre_26_30|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 31 e 35 anos</td>
+                              <td>{{entre_31_35}}</td>
+                              <td>{{entre_31_35|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 36 e 40 anos</td>
+                              <td>{{entre_36_40}}</td>
+                              <td>{{entre_36_40|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 41 e 45 anos</td>
+                              <td>{{entre_41_45}}</td>
+                              <td>{{entre_41_45|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 46 e 50 anos</td>
+                              <td>{{entre_46_50}}</td>
+                              <td>{{entre_46_50|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 51 e 55 anos</td>
+                              <td>{{entre_51_55}}</td>
+                              <td>{{entre_51_55|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Entre 56 e 60 anos</td>
+                              <td>{{entre_56_60}}</td>
+                              <td>{{entre_56_60|porcentagem:total}}</td>
+                          </tr>
+                          <tr>
+                              <td>Acima de 60 anos</td>
+                              <td>{{acima_60}}</td>
+                              <td>{{acima_60|porcentagem:total}}</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="piechart" style="width: 100%; height: 500px;"></div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+<script>
+    function exportF(elem) {
+        var table = document.getElementById("table");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+</script>
+{% endblock extrajs %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container">
+
+      <h3>Resetar Senha</h3>
+
+      <div class="mt-3 form-content">
+        <div class="form-row fields-funcionario">
+          <div class="form-group col-md-7">
+            <label for="senhaAtual">Senha Atual</label>
+            <input id="senhaAtual" type="password" class="form-control" 
+              placeholder="Digite sua senha atual">
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="form-row fields-funcionario">
+          <div class="form-group col-md-7">
+            <label for="novaSenha">Nova Senha</label>
+            <input id="novaSenha" type="password" class="form-control" 
+              placeholder="Digite a nova senha">
+          </div>
+        </div>
+
+        <div class="form-row fields-funcionario">
+          <div class="form-group col-md-7">
+            <label for="confirmacaoSenha">Confirmação de Senha</label>
+            <input id="confirmacaoSenha" type="password" class="form-control" 
+              placeholder="Digite a confirmação de senha">
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-salvar-senha mt-4 float-right">Salvar</button>
+
+      </div>
+
+
+    </section>
+</section>
+{% endblock %}

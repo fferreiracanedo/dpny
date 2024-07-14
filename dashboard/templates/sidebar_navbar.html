@@ -1,0 +1,72 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="{% url 'dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+            </li>
+            <li>
+                
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-tasks fa-fw"></i> Relatórios de Avaliação <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                    <li>
+                        <a href="{% url 'relatorio_estatistica_geral' %}">Estatística Geral</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_estatistica_gestor' %}">Estatística por Gestor</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_estatistica_genero' %}">Estatística por Gênero</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_estatistica_faixa_etaria' %}">Estatística por Faixa Etária</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_estatistica_liderados' %}">Resultado de Liderados</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'avaliacao_desempenho' %}">Resultado Individual</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-tasks fa-fw"></i> Relatórios de Dados Pessoais <span class="fa arrow"></span></a>
+                <ul class="nav nav-third-level">
+                    <li>
+                        <a href="{% url 'relatorio_genero' %}">Por Gênero</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_faixa_etaria' %}">Por Faixa Etária</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_estado_civil' %}">Por Estado Civil</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_filhos' %}">Por Filhos</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_cidade' %}">Por Cidade</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_curso' %}">Por Cursos</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_titulacao' %}">Por Titulação</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_idiomas' %}">Por Idiomas</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'relatorio_atuacao_profissional' %}">Por Atuação Profissional</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="{% url 'admin:index' %}"><i class="fa fa-wrench"></i> Admin </a>
+            </li>
+
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->

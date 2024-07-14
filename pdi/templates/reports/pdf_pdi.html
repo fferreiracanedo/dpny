@@ -1,0 +1,71 @@
+{% extends "easy_pdf/base.html" %}
+
+{% block extra_style %}
+   <meta http-equiv="content-type" content="text/html; charset=utf-8">
+{% endblock %}
+
+{% block content %}
+<h5>Solicitação de PDI - {{ pdi.pessoa.nome }}</h5>
+
+<p>
+    <strong>Data de Nascimento: </strong> {{ pdi.pessoa.data_nascimento }} <br>
+    <strong>Bairro: </strong> {{ pdi.pessoa.bairro }} <br>
+    <strong>Cidade: </strong> {{ pdi.pessoa.cidade }} <br>
+    <strong>Telefone: </strong> {{ pdi.pessoa.telefone }} <br>
+    <strong>Email: </strong> {{ pdi.pessoa.email }} <br>
+</p>
+<hr>
+
+<h5>PDI - IDIOMA</h5>
+{% for idi in pdi.pdiidioma_set.all %}
+    <p>
+        <strong>Idioma: </strong> {{ idi.idioma.titulo }} - {{ idi.idioma.nivel }}<br>
+        <strong>Prazo: </strong> {{ idi.prazo }}<br>
+    </p>
+{% endfor %}
+<hr>
+
+<h5>PDI - FORMAÇÃO ACADÊMICA</h5>
+{% for aca in pdi.pdiformacaoacademica_set.all %}
+    <p>
+        <strong>Formação Acadêmica: </strong> {{ aca.formacao_academica.titulo }}<br>
+        <strong>Curso: </strong> {{ aca.curso.titulo }}<br>
+        <strong>Instituição: </strong> {{ aca.instituicao.nome }}<br>
+        <strong>Prazo: </strong> {{ aca.prazo }}<br>
+    </p>
+{% endfor %}
+<hr>
+
+<h5>PDI - ESPECIALIZAÇÃO</h5>
+{% for esp in pdi.pdiespecializacao_set.all %}
+    <p>
+        <strong>Especialização: </strong> {{ esp.especializacao.titulo }}<br>
+        <strong>Curso: </strong> {{ esp.curso.titulo }}<br>
+        <strong>Instituição: </strong> {{ esp.instituicao.nome }}<br>
+        <strong>Prazo: </strong> {{ esp.prazo }}<br>
+    </p>
+{% endfor %}
+<hr>
+
+<h5>PDI - CURSOS</h5>
+{% for cur in pdi.pdicurso_set.all %}
+    <p>
+        <strong>Curso: </strong> {{ cur.curso.titulo }}<br>
+        <strong>Instituição: </strong> {{ cur.instituicao.nome }}<br>
+        <strong>Prazo: </strong> {{ cur.prazo }}<br>
+    </p>
+{% endfor %}
+<hr>
+
+<h5>PDI - PROFISSIONAL</h5>
+{% for pro in pdi.pdiprofissional_set.all %}
+    <p>
+        <strong>Ação: </strong> {{ pro.acao.nome }}<br>
+        <strong>Responsável: </strong> {{ pro.responsavel }}<br>
+        <strong>Prazo: </strong> {{ pro.prazo }}<br>
+        <strong>Métrica: </strong> {{ pro.metrica }}<br>
+    </p>
+{% endfor %}
+<hr>
+
+{% endblock %}

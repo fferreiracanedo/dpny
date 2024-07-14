@@ -1,0 +1,33 @@
+
+<nav class="navbar navbar-expand-sm navbar-dark shadow p-3" style="background-color: #417690;">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuSuperior" aria-controls="menuSuperior" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="menuSuperior">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'dados' %}">Meus Dados</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'teste_psicologico' %}">Teste Comportamental</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'perfis' %}">Perfis Disponíveis</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'analises' %}">Análise de Talento</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'trilha' %}">Trilha</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="{% url 'account_logout' %}">Sair</a>
+            </li>
+      </ul>
+    </div>
+</nav>

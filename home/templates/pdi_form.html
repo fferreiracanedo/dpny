@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<section class="main-form-submit d-flex flex-fill justify-content-center">
+    <section class="data-form-container fo">
+        <h3>PDI</h3>
+
+        <br>
+        <form id="form" action="{% url 'atualizar_pdi' %}" method="post">
+            {% csrf_token %}
+            {{ form.management_form }}
+            {{ form }}
+
+            {{ pdi_competencia.management_form }}
+            <div id="pdi_competencia">
+                {% for form in pdi_competencia.forms %}
+                    {{ form.non_field_errors }}
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field.errors }}
+                        {{ hidden_field }}
+                    {% endfor %}
+                    <div class="card-candidato" id="linha_pdi_competencia_form-{{ forloop.counter0 }}-">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{object.pessoa}}</span>
+                                <br>
+                                <small>
+                                    {% if object.pessoa.cargo %}
+                                        {{object.pessoa.cargo}}
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="flex-wrap justify-content-center">
+
+                            {% for field in form.visible_fields %}
+                                {% if field.name == 'competencia' or field.name == 'acao' %}
+                                    <div class="separator"></div>
+                                    <div class="percent-container p-4" style="width: 200px">
+                                        {{ field.errors }}
+                                        {{ field|bootstrap }}
+                                        {{ field.help_text }}
+                                    </div>
+                                {% else %}
+                                    <div style="display: none;">
+                                        {{ field }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="separator"></div>
+                            <div class="col-btn-avaliar" style="width: 100px; color: #FFFFFF">
+                                <a class="btn btn-block btn-danger" onclick="removerItem('{{ forloop.counter0 }}')"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-block btn-primary" href="https://buscador.sipclickrh.com.br/" target="_blank"><i class="fa fa-university"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 btn-add-item" id="add_more">
+                <button class="btn btn-add">+</button>
+                <span class="ml-3 add-text">Adicionar outro item</span>
+            </div>
+            <input type="submit" class="btn btn-primary mt-4 float-right" value="Salvar">
+        </form>
+    </section>
+    <div id="empty_form" style="display:none">
+        <div class='no_error'>
+            <div id="item_empty_pdi_competencia_form">
+                <div class="card-candidato" id="linha_pdi_competencia_form-__prefix__-">
+                    <div class="card-right">
+                        <div class="user-photo"
+                            style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                        </div>
+                        <div class="ml-4">
+                            <span>{{object.pessoa}}</span>
+                            <br>
+                            <small>
+                                {% if object.pessoa.cargo %}
+                                    {{object.pessoa.cargo}}
+                                {% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="flex-wrap justify-content-center">
+                        {% for field in pdi_competencia.empty_form.visible_fields %}
+                            {% if field.name == 'competencia' or field.name == 'acao' %}
+                                <div class="separator"></div>
+                                <div class="percent-container p-4" style="width: 200px">
+                                    {{ field.errors }}
+                                    {{ field|bootstrap }}
+                                    {{ field.help_text }}
+                                </div>
+                            {% else %}
+                                <div style="display: none;">
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="separator"></div>
+                        <div class="col-btn-avaliar" style="width: 70px; color: #FFFFFF">
+                            <button class="btn btn-block btn-danger" onclick="removerItem('__prefix__')"><i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $('#add_more').click(function() {
+        var form_idx = $('#id_pdicompetencia_set-TOTAL_FORMS').val();
+        $('#pdi_competencia').append($('#item_empty_pdi_competencia_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_pdi_competencia_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    function removerItem(item) {
+        $("#linha_pdi_competencia_form-"+item+"-").css('display', 'none');
+        $("#id_pdicompetencia_set-"+item+"-DELETE").prop('checked', true);
+    }
+</script>
+{% endblock %}

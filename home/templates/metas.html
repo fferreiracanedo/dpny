@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container section-metas" id="formAvaliacaoMetas">
+        <!-- Avaliação -->
+
+        <a onclick="window.history.back();" href="#">
+            <i class="fa fa-angle-left"></i> Voltar
+        </a>
+        <br>
+        <br>
+
+        <input type="hidden" disabled value={{avaliacao.id}} id="idAvaliacao">
+
+        <h3>Avaliação de Metas</h3>
+
+        <br>
+
+        {% if avaliacao.tipo_avaliacao == "subordinado" %}
+        <div class="text-center mb-3">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a class="btn btn-outline-secondary" href="competencias">Competências</a>
+                <a class="btn btn-secondary">Metas</a>
+                <a class="btn btn-outline-secondary" href="potencial">Potencial</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <br>
+
+        <div class="form-content">
+            {% if avaliacao.itemmeta_set.all.count != 0 %}
+            {% for meta in avaliacao.itemmeta_set.all %}
+            <div class="fields-container field-meta mb-4" data-index="{{meta.id}}">
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label>Nome da Meta</label>
+                        <input type="text" class="form-control" value="{{meta.meta}}" name="meta"
+                            placeholder="Insira a meta">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Peso</label>
+                        <input type="number" class="form-control" value="{{meta.peso|stringformat:".2f"}}" name="peso"
+                            placeholder="Insira o Peso" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descrição da Meta</label>
+                    <textarea name="explicativo" rows="10" class="form-control"
+                        placeholder="Digite a Descrição da Meta">{{meta.explicativo}}</textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Resultado Esperado</label>
+                        <input type="number" name="resultado_esperado"
+                            value="{{meta.resultado_esperado|stringformat:".2f"}}" class="form-control" min="0">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Resultado Atingido</label>
+                        <input type="number" name="resultado_atingido"
+                            value="{{meta.resultado_atingido|stringformat:".2f"}}" class="form-control" min="0">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Atingimento</label>
+                        <input type="number" name="atingimento" value="{{meta.atingimento|stringformat:".2f"}}"
+                            class="form-control" min="0">
+                    </div>
+                </div>
+                <button class="btn btn-outline-danger btn-remover text-right mt-4">
+                    <i class="icon-trash"></i>
+                    Remover
+                </button>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="fields-container field-meta mb-4" data-index="0" data-new-form="true">
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        <label>Nome da Meta</label>
+                        <input type="text" class="form-control" value="{{meta.meta}}" name="meta"
+                            placeholder="Insira a meta">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Peso</label>
+                        <input type="number" class="form-control" name="peso" placeholder="Insira o Peso" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descrição da Meta</label>
+                    <textarea name="explicativo" rows="10" class="form-control"
+                        placeholder="Digite a Descrição da Meta"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label>Resultado Esperado</label>
+                        <input type="number" name="resultado_esperado" class="form-control" value="0" min="0">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Resultado Atingido</label>
+                        <input type="number" name="resultado_atingido" class="form-control" value="0" min="0">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label>Atingimento</label>
+                        <input type="number" name="atingimento" class="form-control" value="0" min="0">
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6 btn-add-item" id="btnAddMeta">
+            <button class="btn btn-add" id="adicionar_form">+</button>
+            <span class="ml-3 add-text">Adicionar outra meta</span>
+        </div>
+        <br>
+        <button class="btn btn-primary float-right btn-avancar" id="btnSalvarAvaliacaoMetas">Salvar</button>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+
+{% block main %}
+<!-- Teste Escrito -->
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false">
+    <section class="data-form-container" id="formTeste">
+        <h4>Teste escrito</h4>
+        {% if teste_psicologico %}
+        <div class="form-content">
+
+            {% for afirmativa in teste_psicologico.afirmativa_set.all %}
+            <div class="fields-container" data-id-afirmativa="{{afirmativa.id}}"
+                data-id-teste="{{afirmativa.teste_psicologico.id}}">
+                <label>{{forloop.counter}} - {{afirmativa.afirmativa}}</label>
+
+                <!--
+                        <div class="alert alert-dark mt-4">
+                            <span class="media-title">Mídia</span>
+                            <div class="float-right">
+                                <a href="#" class="btn-see-media btn-experiencia">Ver</a>
+                            </div>
+                        </div>
+                        -->
+
+                <br>
+
+                {{afirmativa.resposta}}
+                <textarea rows="7" name="resposta" class="form-control" placeholder="Insira sua resposta"></textarea>
+
+                <br>
+
+                <div class="midia-container" data-id-midia="{{forloop.counter}}">
+                    <h6>Mídia</h6>
+                    <p>Carregar uma mídia</p>
+                    <div class="row media-container" data-form-id="formIdiomas">
+                        <div class="col-6">
+                            <button class="btn btn-secondary btn-block btn-carregar btn-experiencia">Carregar</button>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-dark mt-4 {% if not midia.arquivo %} d-none {% endif %}">
+                        <span>Mídia do Candidato</span>
+                        <div class="float-right">
+                            <a href="#" class="btn-see-media btn-experiencia">Ver</a>
+                            <a href="#" class="ml-4 btn-edit-media btn-experiencia">Editar</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-submit-teste btn-avancar mt-4 float-right">Salvar</button>
+
+        {% else %}
+        Não há testes escritos para responder
+        {% endif %}
+    </section>
+</form>
+{% endblock %}

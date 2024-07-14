@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container no-bg">
+        <a onclick="window.history.back();" href="#">
+            <i class="fa fa-angle-left"></i> Voltar 
+        </a> 
+        <br>
+        <br>
+
+        <h3>PDI - {{pessoa}}</h3>
+        <br>
+        <div>
+            <div class="bg-gray-simple rounded">
+                {% if not pdi %}
+                    <div class="alert alert-dark">
+                        Sem PDI para exibir
+                    </div>
+                {% endif %}
+                {% for item in pdi.pdicompetencia_set.all %}
+                    <div class="card-candidato">
+                        <div class="card-right">
+                            <div class="user-photo"
+                                style="background-image: url(' {% if pdi.pessoa.foto %} {{pdi.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                            </div>
+                            <div class="ml-4">
+                                <span>{{pdi.pessoa}}</span>
+                                <br>
+                                <small>
+                                    {% if pdi.pessoa.cargo %}
+                                        {{pdi.pessoa.cargo}}
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-left">
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                Competência<br/>
+                                {{item.competencia.competencia}}
+                            </div>
+                            <div class="separator"></div>
+                            <div class="percent-container p-4" style="width: 200px">
+                                Ação<br/>
+                                {{item.acao}}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</section>
+{% endblock %}

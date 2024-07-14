@@ -1,0 +1,869 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#393939">
+  <!-- Main Style-->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" media="(max-width: 820px)" href="{% static 'css/media-query.css' %}" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{% static 'libs/bootstrap/bootstrap.min.css' %}">
+  <!-- Simple Line Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+  <title>Eicon</title>
+</head>
+
+<body>
+
+  <div class="page-container d-flex flex-column">
+
+    <!-- Navbar -->
+    <!-- <nav class="navbar main-navbar navbar-dark">
+      <div class="navbar-brand">
+        <a href="#">
+          <img src="{% static 'img/menu-button.svg' %}" width="30" alt="Eicon" class="mr-4">
+        </a>
+        <a href="#" class="eicon-logo">
+          <img src="{% static 'img/logo-branco.png' %}" width="120" alt="Eicon">
+        </a>
+      </div>
+      <div class="navbar-brand">
+        <a href="#" class="sip-link">
+          <img src="{% static 'img/logo-sip.png' %}" alt="SipClick" class="mr-3">
+        </a>
+        <img src="{% static 'img/burguer-menu.png' %}" width="30" alt="Eicon" id="toggleSidebar">
+      </div>
+    </nav> -->
+
+    <!-- Content -->
+    <div class="content-wrapper d-flex flex-fill">
+      <!-- Sidebar -->
+      <div class="sidebar-overlay"></div>
+      <aside class="sidebar-container d-flex align-items-center flex-column">
+        <!-- User Info -->
+        <div class="user-image rounded-circle" style="background-image: url('./img/person.jpg');"></div>
+        <div class="user-info">
+          <span class="info-username">Bruno Pvão</span>
+          <br>
+          <span>UX Designer</span>
+          <br>
+          <span>Núcleo de Inovação Digital</span>
+          <br>
+          <span>97256</span>
+        </div>
+        <hr class="separator">
+
+        <!-- Menu -->
+        <ul class="sidebar-menu" id="sideMenu">
+          <li class="active" data-form-id="formDadosPessoais">
+            <i class="icon-user"></i>
+            Dados Pessoais
+          </li>
+          <li data-form-id="formFormacaoAcademica">
+            <i class="icon-graduation"></i>
+            Formação Acadêmica
+          </li>
+          <li data-form-id="formCursos">
+            <i class="icon-badge"></i>
+            Cursos e Certificações
+          </li>
+          <li data-form-id="formIdiomas">
+            <i class="icon-speech"></i>
+            Idiomas
+          </li>
+          <li data-form-id="formExperiencia">
+            <i class="icon-chart"></i>
+            Experiência Profissional
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Forms -->
+      <div class="scrollbar">
+        <form class="main-form d-flex flex-fill justify-content-center" autocomplete="false" onsubmit="return false">
+
+          <!-- Dados Pessoais -->
+          <section class="data-form-container" id="formDadosPessoais">
+            <h4>Dados Pessoais</h4>
+            <div class="form-content">
+
+              <div class="form-group">
+                <label for="nome">Nome Completo*</label>
+                <input name="nome" id="nome" type="text" class="form-control" placeholder="Digite o nome completo">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="cpf">CPFasdasd *</label>
+                  <input name="cpf" id="cpf" type="text" class="form-control" placeholder="Digite o CPF"
+                    data-mask="000.000.000-00">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="dataNascimento">Data Nascimento*</label>
+                  <input name="dataNascimento" id="dataNascimento" type="date" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <!-- FUNCIONÁRIO -->
+                <div class="form-group col-md-4">
+                  <label for="rg">RG</label>
+                  <input name="rg" id="rg" type="text" class="form-control" placeholder="Digite o RG"
+                    data-mask="00.000.000-A">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="orgaoExpedidor">Orgão Expedidor</label>
+                  <input name="orgaoExpedidor" id="orgaoExpedidor" type="text" class="form-control"
+                    placeholder="Digite o orgão expedidor">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="dataExpedicaoRG">Data de Expedição</label>
+                  <input name="dataExpedicaoRG" id="dataExpedicaoRG" type="date" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <!-- FUNCIONÁRIO -->
+                <div class="form-group col-md-4">
+                  <label for="nacionalidade">Nacionalidade</label>
+                  <input name="nacionalidade" id="nacionalidade" type="text" class="form-control"
+                    placeholder="Digite a nacionalidade">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="municipioNascimento">Município de Nascimento</label>
+                  <input name="municipioNascimento" id="municipioNascimento" type="text" class="form-control"
+                    placeholder="Digite o município">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="cor">Raça/Cor</label>
+                  <select name="cor" id="cor" class="form-control">
+                    <option value="" selected disabled>Selecione a raça/cor</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <!-- FUNCIONÁRIO -->
+                <div class="form-group col-md-4">
+                  <label for="tituloEleitoral">Título Eleitoral</label>
+                  <input name="tituloEleitoral" id="tituloEleitoral" type="text" class="form-control"
+                    placeholder="Digite o Título Eleitoral" data-mask="0000 0000 0000">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="zona">Zona</label>
+                  <input name="zona" id="zona" type="text" class="form-control" placeholder="000" data-mask="000">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="secao">Seção</label>
+                  <input name="secao" id="secao" type="text" class="form-control" placeholder="0000" data-mask="0000">
+                </div>
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <!-- FUNCIONÁRIO -->
+                <div class="form-group col-md-4">
+                  <label for="numeroCTPS">Número CTPS</label>
+                  <input name="numeroCTPS" id="numeroCTPS" type="text" class="form-control"
+                    placeholder="Digite o Número CTPS" data-mask="0000000">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="serieCTPS">Série</label>
+                  <input name="serieCTPS" id="serieCTPS" type="text" class="form-control" placeholder="00"
+                    data-mask="0000000">
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="dataExpedicaoCTPS">Data Expedição</label>
+                  <input name="dataExpedicaoCTPS" id="dataExpedicaoCTPS" type="date" class="form-control">
+                </div>
+                <div class="form-group col-md-2">
+                  <label for="ufCTPS">UF</label>
+                  <select name="ufCTPS" id="ufCTPS" class="form-control">
+                    <option value="" disabled selected>Selecionar</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group fields-funcionario">
+                <!-- Funcionário -->
+                <label for="nomeMae">Nome da Mãe</label>
+                <input name="nomeMae" id="nomeMae" type="text" class="form-control" placeholder="Digite o nome da mãe">
+              </div>
+
+              <div class="form-group fields-funcionario">
+                <!-- Funcionário -->
+                <label for="nomePai">Nome Pai</label>
+                <input name="nomePai" id="nomePai" type="text" class="form-control" placeholder="Digite o nome do pai">
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <!-- Funcionário -->
+                <div class="form-group col-8">
+                  <label for="numHabilitacao">Número Habilitação</label>
+                  <input name="numHabilitacao" id="numHabilitacao" type="text" class="form-control"
+                    placeholder="Digite o Número da Habilitação">
+                </div>
+                <div class="form-group col-4">
+                  <label for="categoriaHabilitacao">Categoria</label>
+                  <select name="categoriaHabilitacao" id="categoriaHabilitacao" class="form-control">
+                    <option value="" disabled selected>Selecione a Categoria</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="fields-funcionario field-filho">
+                <!-- Funcionário -->
+                <div class="form-row">
+                  <div class="form-group col-6">
+                    <label for="">Nome Filho(a)</label>
+                    <input type="text" class="form-control" placeholder="Digite o nome">
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="">Data Nascimento</label>
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row fields-funcionario">
+                <div class="col"></div>
+                <div class="form-group col-5 add-col">
+                  <button class="btn btn-block btn-add" id="btnAdicionarFilho">+</button>
+                  <button class="btn btn-block btn-add btn-remove-filho ml-3 d-none" id="btnRemoverFilho">-</button>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="cep" data-mask="00000-000">CEP</label>
+                  <input name="cep" id="cep" type="text" class="form-control" placeholder="Digite o CEP">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="estado">Estado</label>
+                  <select name="estado" id="estado" class="form-control" disabled>
+                    <option value="" disabled selected>Selecione o Estado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="cidade">Cidade</label>
+                  <select name="cidade" id="cidade" class="form-control" disabled>
+                    <option value="" disabled selected>Selecione a Cidade</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="bairro">Bairro</label>
+                  <input name="bairro" id="bairro" type="text" class="form-control" placeholder="Digite o bairro">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="endereco">Endereço Residencial</label>
+                <input name="endereco" id="endereco" type="text" class="form-control" placeholder="Digite o endereço">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="email">E-mail*</label>
+                  <input name="email" id="email" type="email" class="form-control" placeholder="Digite o email">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="estadoCivil">Estado Civil</label>
+                  <select name="estadoCivil" id="estadoCivil" class="form-control">
+                    <option value="" selected disabled>Selecione o Estado Civil</option>
+                    <option value="solteiro">Solteiro</option>
+                    <option value="casado">Casado</option>
+                    <option value="viúvo">Viúvo</option>
+                    <option value="união">União</option>
+                    <option value="divorciado">Separado / Divorciado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="telefoneResidencial">Telefone Residencial</label>
+                  <input name="telefoneResidencial" id="telefoneResidencial" type="text" class="form-control"
+                    placeholder="Digite o telefone" data-mask="(00) 0000-0000">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="telefoneCelular">Telefone Celular*</label>
+                  <input name="telefoneCelular" id="telefoneCelular" type="tel" class="form-control"
+                    placeholder="Digite o celular" data-mask="(00) 00000-0000">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="jaTrabalhou">Já trabalhou nesta empresa?</label>
+                  <select name="jaTrabalhou" id="jaTrabalhou" class="form-control">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="quandoTrabalhou">Quando trabalhou?</label>
+                  <input name="quandoTrabalhou" id="quandoTrabalhou" type="date" class="form-control">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="projeto">Projeto</label>
+                <input name="projeto" id="projeto" type="text" class="form-control"
+                  placeholder="Digite o nome do projeto">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="pretensaoSalarial">Pretensão Salarial</label>
+                  <input name="pretensaoSalarial" id="pretensaoSalarial" type="number" class="form-control"
+                    placeholder="R$ 4.500,00">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="disponibilidadeViagem">Disponibilidade para viajar?</label>
+                  <select name="disponibilidadeViagem" id="disponibilidadeViagem" class="form-control">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="perfilLinkedin">Link Perfil do Linkedin*</label>
+                <input name="perfilLinkedin" id="perfilLinkedin" type="text" class="form-control"
+                  placeholder="Insira o link do linkedin">
+              </div>
+
+              <div class="fields-funcionario" id="docFiles">
+                <!-- Funcionário -->
+                <span>Faça o upload dos seus documentos. Tire uma foto legível</span>
+
+                <!-- RG -->
+                <div class="mt-4 doc" data-doc="rg">
+                  <label for="rgFile" class="btn btn-secondary">Carregar RG</label>
+
+                  <div class="alert alert-dark mt-1 mb-4 d-none" data-img-src="">
+                    <span class="media-title">RG</span>
+                    <div class="float-right">
+                      <a href="#" class="ver-doc">Ver</a>
+                      <a href="#" class="ml-3">
+                        <label for="rgFile">
+                          Editar
+                        </label>
+                      </a>
+                      <div class="float-left mr-5">
+                        Adicionado em
+                        <span class="doc-date">[Data]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="file" accept="image/*" name="rgFile" id="rgFile" class="d-none">
+                </div>
+
+                <!-- CPF -->
+                <div class="doc" data-doc="cpf">
+                  <label for="cpfFile" class="btn btn-secondary">Carregar CPF</label>
+
+                  <div class="alert alert-dark mt-1 mb-4 d-none" data-img-src="">
+                    <span class="media-title">CPF</span>
+                    <div class="float-right">
+                      <a href="#" class="ver-doc">Ver</a>
+                      <a href="#" class="ml-3">
+                        <label for="cpfFile">
+                          Editar
+                        </label>
+                      </a>
+                      <div class="float-left mr-5">
+                        Adicionado em
+                        <span class="doc-date">[Data]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="file" accept="image/*" name="cpfFile" id="cpfFile" class="d-none">
+                </div>
+
+                <!-- PIS -->
+                <div class="doc" data-doc="pis">
+                  <label for="pisFile" class="btn btn-secondary">Carregar PIS</label>
+
+                  <div class="alert alert-dark mt-1 mb-4 d-none" data-img-src="">
+                    <span class="media-title">PIS</span>
+                    <div class="float-right">
+                      <a href="#" class="ver-doc">Ver</a>
+                      <a href="#" class="ml-3">
+                        <label for="pisFile">
+                          Editar
+                        </label>
+                      </a>
+                      <div class="float-left mr-5">
+                        Adicionado em
+                        <span class="doc-date">[Data]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="file" accept="image/*" name="pisFile" id="pisFile" class="d-none">
+                </div>
+
+                <!-- CTPS -->
+                <div class="doc" data-doc="ctps">
+                  <label for="ctpsFile" class="btn btn-secondary">Carregar CTPS</label>
+
+                  <div class="alert alert-dark mt-1 mb-4 d-none" data-img-src="">
+                    <span class="media-title">CTPS</span>
+                    <div class="float-right">
+                      <a href="#" class="ver-doc">Ver</a>
+                      <a href="#" class="ml-3">
+                        <label for="ctpsFile">
+                          Editar
+                        </label>
+                      </a>
+                      <div class="float-left mr-5">
+                        Adicionado em
+                        <span class="doc-date">[Data]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="file" accept="image/*" name="ctpsFile" id="ctpsFile" class="d-none">
+                </div>
+
+                <!-- Título de Eleitor -->
+                <div class="doc" data-doc="titEleitor">
+                  <label for="titEleitorFile" class="btn btn-secondary">Carregar Título de Eleitor</label>
+
+                  <div class="alert alert-dark d-none" data-img-src="">
+                    <span class="media-title">Tit. Eleitor</span>
+                    <div class="float-right">
+                      <a href="#" class="ver-doc">Ver</a>
+                      <a href="#" class="ml-3">
+                        <label for="titEleitorFile">
+                          Editar
+                        </label>
+                      </a>
+                      <div class="float-left mr-5">
+                        Adicionado em
+                        <span class="doc-date">[Data]</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="file" accept="image/*" name="titEleitorFile" id="titEleitorFile" class="d-none">
+                </div>
+              </div>
+
+            </div>
+            <button class="btn btn-primary btn-avancar mt-4 float-right">Avançar</button>
+          </section>
+          
+          <!-- Formação Acadêmica -->
+          <section class="data-form-container" id="formFormacaoAcademica">
+            <h4>Formação Acadêmica</h4>
+            <div class="form-content">
+              <div class="fields-container" data-index="0">
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Nível de Escolaridade</label>
+                    <select class="form-control">
+                      <option value="" selected disabled>Selecione o nível de escolaridade</option>
+                      <option value="Ensino Médio">Ensino Médio</option>
+                      <option value="Técnico">Técnico</option>
+                      <option value="Graduação">Graduação</option>
+                      <option value="Especialização">Especialização</option>
+                      <option value="Mestrado">Mestrado</option>
+                      <option value="Doutorado">Doutorado</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Curso</label>
+                  <input type="text" class="form-control" placeholder="Digite o nome do curso">
+                </div>
+
+                <div class="form-group">
+                  <label>Área</label>
+                  <select name="" id="" class="form-control">
+                    <option value="" selected disabled>Selecione a área do curso</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Instituição</label>
+                  <input type="text" class="form-control" placeholder="Digite o nome da instituição">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-5">
+                    <label>Situação</label>
+                    <select class="form-control">
+                      <option value="" selected disabled>Selecione a situação</option>
+                      <option value="Cursando">Cursando</option>
+                      <option value="Concluído">Concluído</option>
+                      <option value="Trancado">Trancado</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="">Data de Início</label>
+                    <input type="date" class="form-control">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="">Data de Término</label>
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+
+                <h6>Mídia</h6>
+                <p>Adicione ou crie um link para documentos, fotos, sites, apresentações e vídeos externos.</p>
+                <div class="row media-container" data-form-id="formFormacaoAcademica">
+                  <div class="col-6">
+                    <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-secondary btn-block btn-media-link">Link</button>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 d-none">
+                  <span class="media-title">[Titulo da Mídia]</span>
+                  <div class="float-right">
+                    <a href="#" class="btn-see-media">Ver</a>
+                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                    <div class="float-left mr-5">
+                      Adicionado em
+                      <span class="media-date">[Data]</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="media-link mt-4 d-none">
+                  <div class="form-group">
+                    <div class="label">Cole ou insira um link</div>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover float-right btn-block mt-4 mb-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+
+              </div>
+            </div>
+
+            <div class="col-md-6 btn-add-item" id="btnAddFormacao">
+              <button class="btn btn-add">+</button>
+              <span class="ml-3 add-text">Adicionar outra formação</span>
+            </div>
+            <button class="btn btn-primary btn-avancar mt-4 float-right">Avançar</button>
+
+          </section>
+
+          <!-- Cursos e Certificações -->
+          <section class="data-form-container" id="formCursos">
+            <h4>Cursos e Certificações</h4>
+            <div class="form-content">
+              <div class="fields-container" data-index="0">
+
+                <div class="form-group mt-3">
+                  <label for="">Instituição</label>
+                  <input type="text" class="form-control" placeholder="Digite o nome da instituição">
+                </div>
+
+                <div class="form-group">
+                  <label for="">Curso</label>
+                  <input type="text" class="form-control" placeholder="Digite o nome do curso">
+                </div>
+
+                <div class="form-group">
+                  <label for="">Carga Horária (horas)</label>
+                  <input type="text" class="form-control" placeholder="Digite a carga horária do curso">
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="">Data de Início</label>
+                    <input type="date" class="form-control">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="">Data de Término</label>
+                    <input type="date" class="form-control">
+                  </div>
+                </div>
+
+                <h6>Mídia</h6>
+                <p>Adicione ou crie um link para documentos, fotos, sites, apresentações e vídeos externos.</p>
+                <div class="row media-container" data-form-id="formCursos">
+                  <div class="col-6">
+                    <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-outline-secondary btn-block btn-media-link">Link</button>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 d-none">
+                  <span class="media-title">[Titulo da Mídia]</span>
+                  <div class="float-right">
+                    <a href="#" class="btn-see-media">Ver</a>
+                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                    <div class="float-left mr-5">
+                      Adicionado em
+                      <span class="media-date">[Data]</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="media-link mt-4 d-none">
+                  <div class="form-group">
+                    <div class="label">Cole ou insira um link</div>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+
+                <br>
+
+                <span>**Para certificação é necessário comprovação com anexo ou link</span>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+
+              </div>
+            </div>
+            <div class="col-md-6 btn-add-item" id="btnAddCurso">
+              <button class="btn btn-add">+</button>
+              <span class="ml-3 add-text">Adicionar outro curso/certificação</span>
+            </div>
+
+            <button class="btn btn-primary btn-avancar mt-4 float-right">Avançar</button>
+          </section>
+
+          <!-- Idiomas -->
+          <section class="data-form-container" id="formIdiomas">
+            <h4>Idiomas</h4>
+            <div class="form-content">
+              <div class="fields-container" data-index="0">
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="">Idioma</label>
+                    <input type="text" class="form-control" placeholder="Digite o idioma">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="">Nível</label>
+                    <select name="" id="" class="form-control">
+                      <option value="" selected disabled>Selecione o Nível</option>
+                      <option value="">Iniciante</option>
+                      <option value="">Intermediário</option>
+                      <option value="">Avançado</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h6>Mídia</h6>
+                <p>Adicione ou crie um link para documentos, fotos, sites, apresentações e vídeos externos.</p>
+                <div class="row media-container" data-form-id="formIdiomas">
+                  <div class="col-6">
+                    <button class="btn btn-secondary btn-block btn-carregar">Carregar</button>
+                  </div>
+
+                  <div class="col-6">
+                    <button class="btn btn-outline-secondary btn-block btn-media-link">Link</button>
+                  </div>
+                </div>
+
+                <div class="alert alert-dark mt-4 d-none">
+                  <span class="media-title">[Titulo da Mídia]</span>
+                  <div class="float-right">
+                    <a href="#" class="btn-see-media">Ver</a>
+                    <a href="#" class="ml-4 btn-edit-media">Editar</a>
+                    <div class="float-left mr-5">
+                      Adicionado em
+                      <span class="media-date">[Data]</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="media-link mt-4 d-none">
+                  <div class="form-group">
+                    <div class="label">Cole ou insira um link</div>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+
+              </div>
+            </div>
+
+            <div class="col-md-6 btn-add-item" id="btnAddIdioma">
+              <button class="btn btn-add">+</button>
+              <span class="ml-3 add-text">Adicionar outro idioma</span>
+            </div>
+
+            <button class="btn btn-primary btn-avancar mt-4 float-right">Avançar</button>
+          </section>
+
+          <!-- Experiência Profissional -->
+          <section class="data-form-container" id="formExperiencia">
+            <h4>Experiência profissional</h4>
+            <div class="form-content">
+              <div class="fields-container">
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="">Nome Empresa</label>
+                    <input type="text" class="form-control" placeholder="Digite o nome da empresa">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="">Cargo</label>
+                    <input type="text" class="form-control" placeholder="Digite o cargo ocupado">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="">Data de Início</label>
+                    <input type="date" class="form-control">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="">Data de Saída</label>
+                    <input type="date" class="form-control">
+                  </div>
+                  <div class="form-group col-md-4" class="form-control">
+                    <label for="">Tempo de Permanência</label>
+                    <select name="" id="" class="form-control">
+                      <option value="" disabled selected>Selecione o tempo de permanência</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button class="btn btn-outline-danger btn-remover btn-block mt-4">
+                  <i class="icon-trash"></i>
+                  Remover
+                </button>
+
+              </div>
+            </div>
+
+            <div class="col-md-6 btn-add-item" id="btnAddExperiencia">
+              <button class="btn btn-add">+</button>
+              <span class="ml-3 add-text"> Adicionar outra experiência profissional</span>
+            </div>
+
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Mídia -->
+  <div class="modal fade" id="modalMedia" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Mídia</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form onsubmit="return false">
+            <label for="mediaImageFile" id="mediaImageThumbnail">
+              <div>
+                <i class="icon-docs"></i>
+                <br>
+                <span>Arraste o arquivo para cá</span>
+              </div>
+              <span class="or-text">ou</span>
+              <div>
+                <label for="mediaImageFile" class="btn btn-secondary">Procurar arquivo</label>
+              </div>
+            </label>
+            <input type="file" class="d-none" id="mediaImageFile" accept="image/*">
+            <div class="form-group">
+              <label for="tituloMidia">Título</label>
+              <input type="text" class="form-control" placeholder="Escreva o título da mídia" id="tituloMidia">
+            </div>
+            <div class="form-group">
+              <label for="descricaoMidia">Descrição</label>
+              <textarea type="text" class="form-control" placeholder="Escreva a descrição da mídia" rows="3"
+                style="resize: none" id="descricaoMidia"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn mr-auto btn-secondary d-none" id="btnApagarMidia">Excluir essa mídia</button>
+          <button type="button" class="btn btn-primary d-none" id="btnEditarMidia">Salvar Alterações</button>
+          <button type="button" class="btn btn-primary" id="btnSalvarMidia">Salvar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Imagem -->
+  <div class="modal fade" id="modalImagem" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Documento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="" alt="Documento" id="fotoDocumento">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger mr-auto" id="btnExcluirDocumento">Excluir</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="{% static 'libs/jquery/jquery-3.4.1.min.js' %}"></script>
+  <!-- jQuery Mask -->
+  <script src="{% static 'libs/jquery-mask/jquery.mask.min.js' %}"></script>
+  <!-- Bootstrap -->
+  <script src="{% static 'libs/bootstrap/bootstrap.min.js' %}"></script>
+  <!-- Sweet Alert -->
+  <script src="{% static 'libs/sweetalert/sweetalert.js' %}"></script>
+  <!-- Sweet Alert -->
+  <script src="{% static 'libs/malihu-scroll/jquery.mCustomScrollbar.min.js' %}"></script>
+  <!-- JS -->
+  <script src="{% static 'js/formDadosPessoais.js' %}"></script>
+  <script src="{% static 'js/mediaModal.js' %}"></script>
+
+  <script src="{% static 'js/forms.js' %}"></script>
+  <script src="{% static 'js/sidebar.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

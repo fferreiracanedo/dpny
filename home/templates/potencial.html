@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+{% block main %}
+<!-- Idiomas -->
+
+<section class="main-form d-flex flex-fill justify-content-center">
+    <section class="data-form-container section-metas no-bg" id="formAvaliacaoMetas">
+        <a onclick="window.history.back();" href="#">
+            <i class="fa fa-angle-left"></i> Voltar 
+        </a> 
+        <br>
+        <br>
+
+        <input type="hidden" disabled value={{avaliacao.id}} id="idAvaliacao">
+
+        <h3>Avaliação de Potencial</h3>
+
+        <br>
+
+        {% if avaliacao.tipo_avaliacao == "subordinado" %}
+        <div class="text-center mb-3">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a class="btn btn-outline-secondary" href="competencias">Competências</a>
+                <a class="btn btn-outline-secondary" href="metas">Metas</a>
+                <a class="btn btn-secondary">Potencial</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <br>
+
+        <div>
+
+            <div class="bg-gray-simple rounded">
+
+                {% if avaliacoes_pendentes.count == 0 %}
+                <div class="alert alert-dark">Nenhuma avaliação pendente no momento</div>
+                {% endif %}
+
+                <div class="card-candidato {% if not avaliacao.resposta_potencial %} card-yellow {% endif %}" data-id-avaliacao="{{avaliacao.id}}">
+                    <div class="card-right">
+                        <div class="user-photo"
+                            style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');">
+                        </div>
+                        <div class="ml-4">
+                            <span>{{avaliacao.pessoa.nome}}</span>
+                            <br>
+                            <small>{{avaliacao.pessoa.cargo}}</small>
+                        </div>
+                    </div>
+                    <div class="card-left">
+                        <div class="separator"></div>
+                        <div class="percent-container">
+                            <span>{{avaliacao.pessoa.cargo}}</span><br>
+                        </div>
+                        <div>
+                            <select class="form-control resposta-potencial">
+                                <option value="" disabled selected>-</option>
+                                <option value="NA" {% if avaliacao.resposta_potencial == "NA" %} selected {% endif %}>NA</option>
+                                <option value="R-" {% if avaliacao.resposta_potencial == "R-" %} selected {% endif %}>-R</option>
+                                <option value="R" {% if avaliacao.resposta_potencial == "R" %} selected {% endif %}>R</option>
+                                <option value="R+" {% if avaliacao.resposta_potencial == "R+" %} selected {% endif %}>R+</option>
+                                <option value="AP" {% if avaliacao.resposta_potencial == "AP" %} selected {% endif %}>AP</option>
+                            </select>
+                        </div>
+                        <div class="col-btn-avaliar" style="width: 100px;">
+                            <button class="btn btn-block btn-avaliar btn-salvar-potencial">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+        <b>Legenda:</b><br>
+        <small>
+            <span>NA : Avaliação não apropriada no momento (menos de 6 meses na empresa)</span><br>
+            <span>R- : Não satisfatório, devendo ser fruto de análise para atividade de menor complexidade ou
+                desligamento</span><br>
+            <span>R : Situação estável</span><br>
+            <span>R+ : Capacidade para crescimento horizontal, atividades mais complexas</span><br>
+            <span>AP : Potencial para crescimento vertical</span>
+        </small>
+    </section>
+</section>
+{% endblock %}

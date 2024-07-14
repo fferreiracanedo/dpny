@@ -1,0 +1,177 @@
+.sidebar-container {
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  width: 0;
+}
+
+.sidebar-menu  li {
+  padding-left: 20px !important;
+}
+
+nav {
+  position: relative;
+}
+
+.data-form-container {
+  padding: 15px;
+  width: 100% !important;
+  padding-bottom: 70px;
+}
+
+.main-form {
+  padding: 0;
+}
+
+#docFiles .btn {
+  width: 100%;
+  white-space: normal;
+}
+
+.sip-link {
+  display: none;
+}
+
+.eicon-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#mediaImageThumbnail {
+  height: 300px !important;
+  width: 100%;
+}
+
+#toggleSidebar {
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+.sidebar-overlay {
+  position: fixed;
+  background: #000;
+  width: 100%;
+  height: 100%;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: .5;
+  display: none;
+}
+
+.sidebar-container .user-container {
+  flex-direction: column;
+  text-align: center;
+}
+
+.sidebar-container .user-image {
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  margin-bottom: 15px;
+}
+
+.sidebar-container .user-info {
+  font-size: 12px;
+}
+
+.sidebar-container .info-username {
+  font-size: 25px;
+}
+
+.media-container button {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.alert .float-left {
+  display: none;
+}
+
+.login-form {
+  width: 100%;
+  height: 90%;
+  padding: 30px;
+}
+
+#btnLogin {
+  width: 100%;
+}
+
+#btnLinkedinLogin {
+  width: 100%;
+}
+
+.linkedinLoginContainer {
+  margin-top: 60px !important;
+}
+
+/* Ranking Candidato */
+
+.card-candidato {
+  flex-direction: column;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.card-candidato .card-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-candidato .separator {
+  display: none;
+}
+
+.card-candidato .percent-container {
+  padding: 10px;
+}
+
+.card-candidato .col-btn-avaliar {
+  margin-top: 20px;
+}
+
+/* Avaliação */
+.avaliacao div.ml-3 {
+  margin-left: 0 !important;
+  margin-top: 30px;
+}
+
+.person-info div {
+  margin-bottom: 10px;
+  justify-content: center;
+  text-align: center;
+}
+
+.legenda-regua {
+  display: none !important;
+}
+
+.slider {
+  margin-top: 16px;
+}
+
+.container-status-regua {
+  display: block;
+}
+
+.slider-indicator {
+  transform: translateX(-9px) translateY(-35px) !important;
+}
+
+.avaliacoes .avaliacao {
+  width: 400px;
+  border-radius: 10px;
+}
+
+.avaliacoes .avaliacao > div {
+  justify-content: space-between !important;
+  width: 100%;
+  flex-direction: row-reverse;
+  padding-bottom: 3px !important;
+}

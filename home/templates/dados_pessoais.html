@@ -1,0 +1,695 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load home_tag %}
+{% load bootstrap %}
+
+{% block main %}
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false" onsubmit="return false">
+  <!-- Dados Pessoais -->
+  <section class="data-form-container" id="formDadosPessoais">
+
+    <input type="hidden" value="{{pessoa.cargo|default_if_none:''}}" id="cargoPessoa">
+
+    <h4>Dados Pessoais</h4>
+    <div class="form-content">
+
+      <div class="form-group">
+        <label for="nome">Nome Completo *</label>
+        <input name="nome" id="nome" type="text" class="form-control" value="{{pessoa.nome|default_if_none:''}}"
+          placeholder="Digite o nome completo">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="cpf">CPF *</label>
+          <input name="cpf" id="cpf" type="text" class="form-control" value="{{pessoa.cpf|default_if_none:''}}" placeholder="Digite o CPF"
+            data-mask="000.000.000-00" autocomplete="off">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="dataNascimento">Data Nascimento *</label>
+          <input name="data_nascimento" id="dataNascimento" value="{{pessoa.data_nascimento|date:'Y-m-d'}}" type="date"
+            class="form-control">
+        </div>
+      </div>
+
+      {% if pessoa.cargo %}
+      <div class="form-row fields-funcionario">
+        <!-- FUNCIONÁRIO -->
+        <div class="form-group col-md-4">
+          <label for="rg">RG</label>
+          <input name="rg" id="rg" type="text" class="form-control" value="{{pessoa.rg|default_if_none:''}}" placeholder="Digite o RG"
+            data-mask="00.000.000-A">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="orgaoExpedidor">Orgão Expedidor</label>
+          <input name="rg_orgao_expedidor" id="orgaoExpedidor" value="{{pessoa.rg_orgao_expedidor|default_if_none:''}}" type="text"
+            class="form-control" placeholder="Digite o orgão expedidor">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="dataExpedicaoRG">Data de Expedição</label>
+          <input name="rg_data_expedicao" id="dataExpedicaoRG" value="{{pessoa.rg_data_expedicao|date:'Y-m-d'}}"
+            type="date" class="form-control">
+        </div>
+      </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+      <div class="form-row fields-funcionario">
+        <!-- FUNCIONÁRIO -->
+        <div class="form-group col-md-4">
+          <label for="nacionalidade">Nacionalidade</label>
+          <input name="nacionalidade" id="nacionalidade" type="text" value="{{pessoa.nacionalidade|default_if_none:''}}"
+            class="form-control" placeholder="Digite a nacionalidade">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="municipioNascimento">Município de Nascimento</label>
+          <input name="municipio_nascimento" id="municipioNascimento" type="text" value="{{pessoa.municipio_nascimento|default_if_none:''}}"
+            class="form-control" placeholder="Digite o município">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="cor">Raça/Cor</label>
+          <select name="cor" id="cor" class="form-control">
+            <option value="">Selecione a raça/cor</option>
+            <option value="Branca" {% if pessoa.cor == 'Branca' %} selected {% endif %}>Branca</option>
+            <option value="Morena" {% if pessoa.cor == 'Morena' %} selected {% endif %}>Amarelo / Indigena</option>
+            <option value="Parda" {% if pessoa.cor == 'Parda' %} selected {% endif %}>Parda</option>
+            <option value="Negra" {% if pessoa.cor == 'Negra' %} selected {% endif %}>Negra</option>
+          </select>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+      <div class="form-row fields-funcionario">
+        <!-- FUNCIONÁRIO -->
+        <div class="form-group col-md-4">
+          <label for="tituloEleitoral">Título Eleitoral</label>
+          <input name="titulo_eleitor" id="tituloEleitoral" value="{{pessoa.titulo_eleitor}}" type="text"
+            class="form-control" placeholder="Digite o Título Eleitoral" data-mask="0000 0000 0000">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="zona">Zona</label>
+          <input name="titulo_eleitor_zona" id="zona" type="text" class="form-control"
+            value="{{pessoa.titulo_eleitor_zona|default_if_none:''}}" placeholder="000">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="secao">Seção</label>
+          <input name="titulo_eleitor_secao" id="secao" type="text" class="form-control"
+            value="{{pessoa.titulo_eleitor_secao|default_if_none:''}}" placeholder="0000">
+        </div>
+      </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+      <div class="form-row fields-funcionario">
+        <!-- FUNCIONÁRIO -->
+        <div class="form-group col-md-4">
+          <label for="numeroCTPS">Número CTPS</label>
+          <input name="ctps_numero" id="numeroCTPS" type="text" value="{{pessoa.ctps_numero|default_if_none:''}}" class="form-control"
+            placeholder="Digite o Número CTPS">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="serieCTPS">Série</label>
+          <input name="ctps_serie" id="serieCTPS" type="text" value="{{pessoa.ctps_serie|default_if_none:''}}" class="form-control"
+            placeholder="00">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="dataExpedicaoCTPS">Data Expedição</label>
+          <input name="ctps_data_expedicao" id="dataExpedicaoCTPS" value="{{pessoa.ctps_data_expedicao|date:'Y-m-d'}}"
+            type="date" class="form-control">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="ufCTPS">UF</label>
+          <select name="ctps_uf" id="ufCTPS" class="form-control">
+            {% if not pessoa.ctps_uf %}
+            <option value="" selected>Selecionar</option>
+            {% else %}
+            <option value="{{pessoa.ctps_uf}}" selected>{{pessoa.ctps_uf}}</option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+        <div class="form-row fields-funcionario">
+          <!-- FUNCIONÁRIO -->
+          <div class="form-group col-md-4">
+            <label for="numeroPIS">Número PIS</label>
+            <input name="pis_numero" id="numeroPIS" type="text" value="{{pessoa.pis_numero|default_if_none:''}}" class="form-control"
+              placeholder="Digite o Número do PIS" data-mask="000.000000.00-0">
+          </div>
+        </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+      <div class="form-group fields-funcionario">
+        <!-- Funcionário -->
+        <label for="nomeMae">Nome da Mãe</label>
+        <input name="nome_mae" id="nomeMae" type="text" value="{{pessoa.nome_mae|default_if_none:''}}" class="form-control"
+          placeholder="Digite o nome da mãe">
+      </div>
+
+      <div class="form-group fields-funcionario">
+        <!-- Funcionário -->
+        <label for="nomePai">Nome Pai</label>
+        <input name="nome_pai" id="nomePai" type="text" value="{{pessoa.nome_pai|default_if_none:''}}" class="form-control"
+          placeholder="Digite o nome do pai">
+      </div>
+      {% endif %}
+
+      {% if pessoa.cargo %}
+      <div class="form-row fields-funcionario">
+        <!-- Funcionário -->
+        <div class="form-group col-8">
+          <label for="numHabilitacao">Número Habilitação</label>
+          <input name="habilitacao_numero" id="numHabilitacao" value="{{pessoa.habilitacao_numero|default_if_none:''}}" type="text"
+            class="form-control" placeholder="Digite o Número da Habilitação">
+        </div>
+        <div class="form-group col-4">
+          <label for="categoriaHabilitacao">Categoria</label>
+          <input name="habilitacao_categoria" value="{{pessoa.habilitacao_categoria|default_if_none:''}}" id="categoriaHabilitacao" placeholder="Insira a Categoria da Habilitação" class="form-control">
+        </div>
+      </div>
+      {% endif %}
+
+      <br>
+
+      {% if pessoa.cargo %}
+
+        <h5>Dependentes</h5>
+
+        <br>
+
+        {% for filho in pessoa.filho_set.all %}
+          <div class="fields-funcionario field-filho mt-5 mt-md-1" data-filho-id="{{filho.id}}">
+            <!-- Funcionário -->
+            <div class="form-row">
+              <div class="form-group col-md-4 col-12">
+                <label>Nome Dependente</label>
+                <input type="text" class="form-control nome-filho" value="{{filho.nome}}" placeholder="Digite o nome">
+              </div>
+              <div class="form-group col-md-3 col-12">
+                <label>Data Nascimento</label>
+                <input type="date" class="form-control nascimento-filho" value="{{filho.data_nascimento|date:'Y-m-d'}}">
+              </div>
+              <div class="form-group col-md-3 col-12">
+                <label>CPF</label>
+                <input type="text" class="form-control cpf-filho" value="{{filho.cpf}}" data-mask="000.000.000-00" placeholder="CPF do Dependente">
+              </div>
+              <div class="form-group col-md-2 col-12">
+                <label>Foto CPF</label>
+                <div {% if filho.cpf_anexo %} data-img-src="{{filho.cpf_anexo.url}}" {% endif %} class="doc" data-doc="CPF Dependente">
+
+                    <label class="btn btn-secondary btn-block btn-filho-cpf-media {{filho.cpf_anexo|yesno:'d-none,'}} " style="padding-left: 0; padding-right: 0">
+                      Carregar
+                    </label>
+                    
+                    <div class="alert alert-dark text-center {{filho.cpf_anexo|yesno:',d-none'}}" style="padding-left: 0; padding-right: 0">
+                      <a class="ver-doc" class="mr-2" href="#">Ver</a>
+                      <a class="btn-editar-cpf-filho" href="#">Editar</a>
+                    </div>
+
+                    <input type="file" accept="image/*" class="d-none">
+                </div>
+
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% if not pessoa.filho_set.all %}
+          <div class="fields-funcionario field-filho mt-5 mt-md-1" data-filho-id="{{filho.id}}">
+              <!-- Funcionário -->
+            <div class="form-row">
+              <div class="form-group col-md-4 col-12">
+                <label>Nome Dependente</label>
+                <input type="text" class="form-control nome-filho" value="{{filho.nome}}" placeholder="Digite o nome">
+              </div>
+              <div class="form-group col-md-3 col-12">
+                <label>Data Nascimento</label>
+                <input type="date" class="form-control nascimento-filho" value="{{filho.data_nascimento|date:'Y-m-d'}}">
+              </div>
+              <div class="form-group col-md-3 col-12">
+                <label>CPF</label>
+                <input type="text" class="form-control cpf-filho" value="{{filho.cpf}}" data-mask="000.000.000-00" placeholder="CPF do Dependente">
+              </div>
+              <div class="form-group col-md-2 col-12">
+                <label>Foto CPF</label> <br>
+                <div class="doc" data-doc="CPF Dependente">
+
+                    <label class="btn btn-secondary btn-block btn-filho-cpf-media" style="padding-left: 0; padding-right: 0">
+                      Carregar
+                    </label>
+                    
+                    <div class="alert alert-dark text-center d-none" style="padding-left: 0; padding-right: 0">
+                      <a class="ver-doc" class="mr-2" href="#">Ver</a>
+                      <a class="btn-editar-cpf-filho" href="#">Editar</a>
+                    </div>
+
+                    <input type="file" accept="image/*" class="d-none">
+                </div>
+
+              </div>
+            </div>
+            
+          </div>
+        {% endif %}
+
+        <div class="form-row fields-funcionario">
+          <!-- Funcionário -->
+          <div class="col"></div>
+          <div class="form-group col-5 add-col">
+            <button class="btn btn-block btn-add" id="btnAdicionarFilho">+</button>
+            <button class="btn btn-block btn-add btn-remove-filho ml-3 
+            {% if pessoa.filho_set.all|length < 2 %} d-none {% endif %}" id="btnRemoverFilho">-</button>
+          </div>
+        </div>
+
+      {% endif %}
+
+      <br>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="cep">CEP</label>
+          <input name="cep" id="cep" autocomplete="no" type="text" class="form-control" value="{{pessoa.cep}}" placeholder="Digite o CEP">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="estado">Estado</label>
+          <select name="estado" id="estado" class="form-control" disabled>
+            {% if not pessoa.estado %}
+            <option value="">Selecione o Estado</option>
+            {% else %}
+            <option value="{{pessoa.estado}}" selected>{{pessoa.estado}}</option>
+            {% endif %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="cidade">Cidade</label>
+          <select name="cidade" id="cidade" class="form-control" disabled>
+            {% if not pessoa.cidade %}
+            <option value="" selected>Selecione a Cidade</option>
+            {% else %}
+            <option value="{{pessoa.cidade}}" selected>{{pessoa.cidade}}</option>
+            {% endif %}
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="bairro">Bairro</label>
+          <input name="bairro" id="bairro" type="text" value="{{pessoa.bairro|default_if_none:''}}" class="form-control"
+            placeholder="Digite o bairro">
+        </div>
+      </div>
+
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+              <label for="endereco">Endereço Residencial</label>
+              <input name="logradouro" id="endereco" type="text" value="{{pessoa.logradouro|default_if_none:''}}" class="form-control"
+                placeholder="Digite o endereço">
+        </div>
+
+        <div class="form-group col-md-4">
+              <label for="numeroEndereco">Número Residencial</label>
+              <input name="numero_endereco" id="numeroEndereco" type="number" value="{{pessoa.numero_endereco|default_if_none:''}}" class="form-control"
+                  placeholder="Digite o número da Residência">
+        </div>
+
+        <div class="form-group col-md-4">
+              <label for="complementoEndereco">Complemento</label>
+              <input name="complemento" id="complementoEndereco" type="text" value="{{pessoa.complemento|default_if_none:''}}" class="form-control"
+                  placeholder="Digite o endereço">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="email">E-mail *</label>
+          <input name="email" id="email" type="email" value="{{pessoa.email|default_if_none:''}}" class="form-control"
+            placeholder="Digite o email">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="estadoCivil">Estado Civil</label>
+          <select name="estado_civil" id="estadoCivil" class="form-control">
+            <option value="" selected disabled>Selecione o Estado Civil</option>
+            {% for estado_civil in estados_civis %}
+              <option value="{{estado_civil.id}}" {% if pessoa.estado_civil.id == estado_civil.id %} selected {% endif %}>{{estado_civil.nome}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="sexo">Sexo</label>
+          <select name="sexo" id="sexo" class="form-control">
+            <option value="MAS" {% if pessoa.sexo == "MAS" %} selected {% endif %}>Masculino</option>            
+            <option value="FEM" {% if pessoa.sexo == "FEM" %} selected {% endif %} >Feminino</option>
+          </select>
+        </div> 
+      </div>
+
+      <!-- Certidão Divórcio -->
+      <div class="doc-divorcio {% if pessoa.estado_civil.nome != "Divorciado" %} d-none {% endif %}">
+        <div class="doc doc-divorcio-anexo" data-doc="divorcio_anexo"
+        {% if pessoa.divorcio_anexo %} data-img-src="{{pessoa.divorcio_anexo.url}}" {% endif %}>
+          <label for="divorcioFile" class="btn btn-secondary">Carregar Certidão de Divórcio</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.divorcio_anexo|yesno:',d-none'}}">
+            <span class="media-title">Certidão de Divórcio</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.divorcio_anexo %}{{pessoa.divorcio_anexo.url}}{% endif %}">Ver</a>
+
+              <a href="#" class="ml-3">
+                <label for="divorcioFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="divorcioFile" class="d-none">
+        </div>
+
+        <br>
+        
+      </div>
+
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="telefoneResidencial">Telefone Residencial *</label>
+          <input name="telefone" id="telefoneResidencial" value="{{pessoa.telefone}}" type="text" class="form-control"
+            placeholder="Digite o telefone" data-mask="(00) 0000-0000">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="telefoneCelular">Telefone Celular</label>
+          <input name="celular" id="telefoneCelular" type="tel" value="{{pessoa.celular}}" class="form-control"
+            placeholder="Digite o celular" data-mask="(00) 00000-0000">
+        </div>
+      </div>
+
+      {% if not pessoa.cargo %}
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="jaTrabalhou">Já trabalhou nesta empresa?</label>
+          <select name="ja_trabalhou" id="jaTrabalhou" class="form-control">
+            <option value="Sim" {% if pessoa.ja_trabalhou == 'Sim' %} selected {% endif %}>Sim</option>
+            <option value="Não" {% if pessoa.ja_trabalhou == 'Não' %} selected {% endif %}>Não</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="quandoTrabalhou">Quando trabalhou?</label>
+          <input name="quando_trabalhou" id="quandoTrabalhou" value="{{pessoa.quando_trabalhou|date:'Y-m-d'}}"
+            type="date" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="projeto">Projeto</label>
+        <input name="projeto_trabalhou" id="projeto" type="text" value="{{pessoa.projeto_trabalhou|default_if_none:''}}"
+          class="form-control" placeholder="Digite o nome do projeto">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="pretensaoSalarial">Pretensão Salarial</label>
+          <input name="pretensao_salarial" id="pretensaoSalarial" type="number" placeholder="R$ 0000,00" value="{% number_format pessoa.pretensao_salarial %}"
+            class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="disponibilidadeViagem">Disponibilidade para viajar?</label>
+          <select name="disponibilidade_viajar" id="disponibilidadeViagem" class="form-control">
+            <option value="Sim" {% if pessoa.disponibilidade_viajar == "Sim" %} selected {% endif %}>Sim</option>
+            <option value="Não" {% if pessoa.disponibilidade_viajar == "Não" %} selected {% endif %} >Não</option>
+          </select>
+        </div>
+      </div>
+
+      {% endif %}
+
+      <div class="form-group">
+        <label for="perfilLinkedin">Link Perfil do Linkedin</label>
+        <input name="link_perfil_linkedin" id="perfilLinkedin" value="{{pessoa.link_perfil_linkedin|default_if_none:''}}" type="text"
+          class="form-control no-validate" placeholder="Insira o link do linkedin">
+      </div>
+
+      <a href="/core/resetar_senha">Alteração de senha</a>
+
+
+      {% if pessoa.cargo %}
+      <hr>
+
+      <div class="fields-funcionario" id="docFiles">
+        <!-- Funcionário -->
+        <span>Faça o upload dos seus documentos. Tire uma foto legível</span>
+
+        <br>
+        <b>
+
+        <b>* Importante: Os documentos enviados devem ser imagens (.png, .jpg, .jpeg...) e documentos PDF</b>
+
+        <!-- RG -->
+        <div class="mt-4 doc" data-doc="rg_anexo"
+        {% if pessoa.rg_anexo %} data-img-src="{{pessoa.rg_anexo.url}}" {% endif %}>
+          <label for="rgFile" class="btn btn-secondary">Carregar RG</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.rg_anexo|yesno:',d-none'}}" >
+            <span class="media-title">RG</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.rg_anexo %}{{pessoa.rg_anexo.url}}{% endif %}">Ver</a>
+              
+              <a href="#" class="ml-3">
+                <label for="rgFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="rgFile" class="d-none">
+        </div>
+
+        <!-- CPF -->
+        <div class="doc" data-doc="cpf_anexo"
+        {% if pessoa.cpf_anexo %} data-img-src="{{pessoa.cpf_anexo.url}}" {% endif %}>
+          <label for="cpfFile" class="btn btn-secondary">Carregar CPF</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.cpf_anexo|yesno:',d-none'}}">
+            <span class="media-title">CPF</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.cpf_anexo %}{{pessoa.cpf_anexo.url}}{% endif %}">Ver</a>
+
+              <a href="#" class="ml-3">
+                <label for="cpfFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="cpfFile" class="d-none">
+        </div>
+
+        <!-- PIS -->
+        <div class="doc" data-doc="pis_anexo"
+        {% if pessoa.pis_anexo %} data-img-src="{{pessoa.pis_anexo.url}}" {% endif %}>
+          <label for="pisFile" class="btn btn-secondary">Carregar PIS</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.pis_anexo|yesno:',d-none'}}">
+            <span class="media-title">PIS</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.pis_anexo %}{{pessoa.pis_anexo.url}}{% endif %}">Ver</a>
+
+              <a href="#" class="ml-3">
+                <label for="pisFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="pisFile" class="d-none">
+        </div>
+
+        <!-- CTPS -->
+        <div class="doc" data-doc="ctps_anexo"
+        {% if pessoa.ctps_anexo %} data-img-src="{{pessoa.ctps_anexo.url}}" {% endif %}>
+          <label for="ctpsFile" class="btn btn-secondary">Carregar CTPS</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.ctps_anexo|yesno:',d-none'}}">
+            <span class="media-title">CTPS</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.ctps_anexo %}{{pessoa.ctps_anexo.url}}{% endif %}">Ver</a>
+
+              <a href="#" class="ml-3">
+                <label for="ctpsFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="ctpsFile" class="d-none">
+        </div>
+
+        <!-- Título de Eleitor -->
+        <div class="doc" data-doc="titulo_eleitor_anexo" 
+        {% if pessoa.titulo_eleitor_anexo %} data-img-src="{{pessoa.titulo_eleitor_anexo.url}}" {% endif %}>
+          <label for="titEleitorFile" class="btn btn-secondary">Carregar Título de Eleitor</label>
+
+          <div class="alert alert-dark {{pessoa.titulo_eleitor_anexo|yesno:',d-none'}}">
+            <span class="media-title">Tit. Eleitor</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.titulo_eleitor_anexo %}{{pessoa.titulo_eleitor_anexo.url}}{% endif %}">Ver</a>
+
+              <a href="#" class="ml-3">
+                <label for="titEleitorFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="titEleitorFile" class="d-none">
+        </div>
+
+        <!-- Certidão Nascimento -->
+        <div class="doc" data-doc="nascimento_anexo"
+        {% if pessoa.nascimento_anexo %} data-img-src="{{pessoa.nascimento_anexo.url}}" {% endif %}>
+          <label for="nascimentoFile" class="btn btn-secondary">Carregar Certidão de Nascimento</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.nascimento_anexo|yesno:',d-none'}}">
+            <span class="media-title">Certidão de Nascimento</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.nascimento_anexo %}{{pessoa.nascimento_anexo.url}}{% endif %}">Ver</a>
+              
+              <a href="#" class="ml-3">
+                <label for="nascimentoFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" accept="image/*, application/pdf" id="nascimentoFile" class="d-none">
+        </div>
+
+        <!-- Certidão Casamento -->
+        <div class="doc" data-doc="casamento_anexo"
+        {% if pessoa.casamento_anexo %} data-img-src="{{pessoa.casamento_anexo.url}}" {% endif %}>
+          <label for="casamentoFile" class="btn btn-secondary">Carregar Certidão de Casamento</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.casamento_anexo|yesno:',d-none'}}">
+            <span class="media-title">Certidão de Casamento</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.casamento_anexo %}{{pessoa.casamento_anexo.url}}{% endif %}">Ver</a>
+              <a href="#" class="ml-3">
+                <label for="casamentoFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" aaccept="image/*, application/pdf" id="casamentoFile" class="d-none">
+        </div>
+
+        <!-- Comprovante de Residência -->
+        <div class="doc" data-doc="residencia_anexo"
+        {% if pessoa.residencia_anexo %} data-img-src="{{pessoa.residencia_anexo.url}}" {% endif %}>
+          <label for="residenciaFile" class="btn btn-secondary">Carregar Comprovante de Residência</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.residencia_anexo|yesno:',d-none'}}">
+            <span class="media-title">Comprovante de Residência</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.residencia_anexo %}{{pessoa.residencia_anexo.url}}{% endif %}">Ver</a>
+              <a href="#" class="ml-3">
+                <label for="residenciaFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" aaccept="image/*, application/pdf" id="residenciaFile" class="d-none">
+        </div>
+
+        <!-- Carteira de Habilitação -->
+        <div class="doc" data-doc="habilitacao_anexo"
+        {% if pessoa.habilitacao_anexo %} data-img-src="{{pessoa.habilitacao_anexo.url}}" {% endif %}>
+          <label for="habilitacaoFile" class="btn btn-secondary">Carregar Carteira de Habilitação</label>
+
+          <div class="alert alert-dark mt-1 mb-4 {{pessoa.habilitacao_anexo|yesno:',d-none'}}">
+            <span class="media-title">Carteira de Habilitação</span>
+            <div class="float-sm-right">
+              <a target="_blank" class="doc-link" href="{% if pessoa.habilitacao_anexo %}{{pessoa.habilitacao_anexo.url}}{% endif %}">Ver</a>
+              <a href="#" class="ml-3">
+                <label for="habilitacaoFile">
+                  Editar
+                </label>
+              </a>
+            </div>
+          </div>
+
+          <input type="file" aaccept="image/*, application/pdf" id="habilitacaoFile" class="d-none">
+        </div>
+
+      </div>
+      
+      {% endif %}
+
+      {% if not pessoa.cargo %}
+
+      <br>
+      <hr>
+      <br>
+
+      <span>Vídeo e Currículo</span>
+      <div class="mt-3">
+          <label for="videoFile" class="btn btn-secondary" id="btnCarregarVideo">Carregar Vídeo</label>
+          <br>
+          <div id="videoContainer" class="{{pessoa.video|yesno:',d-none'}}">
+
+            {% if pessoa.video %}
+              <video controls id="uploadedVideo">
+                <source src="{{pessoa.video.url}}" type="video/mp4">
+              </video>
+            {% endif %}
+            <br>
+            <button class="btn btn-danger" id="btnRemoverVideo">Remover</button>
+            <br>
+            <br>
+          </div>
+          <input type="file" accept="video/mp4" id="videoFile" class="d-none">
+      </div>
+
+      <div class="curriculo">
+          <label for="curriculoFile" class="btn btn-secondary">Carregar Currículo</label>
+
+          <div class="alert alert-dark {{pessoa.curriculo|yesno:',d-none'}}">
+            <span class="media-title">Curriculo</span>
+            <div class="float-sm-right">
+              <a download="curriculo" href="{% if pessoa.curriculo %}{{pessoa.curriculo.url}}{% endif %}" id="btnBaixarCurriculo">Baixar</a>
+              <a href="#" class="ml-3">
+                <label for="curriculoFile">
+                  Editar
+                </label>
+              </a>
+
+            </div>
+          </div>
+          
+          <input type="file" id="curriculoFile" class="d-none">
+        </div>
+
+      {% endif %}
+
+
+    </div>
+    <button class="btn btn-primary btn-salvar-dados-pessoais btn-avancar mt-4 float-right">Salvar</button>
+  </section>
+</form>
+{% endblock %}

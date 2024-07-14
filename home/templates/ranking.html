@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load home_tag %}
+{% load bootstrap %}
+
+
+{% block main %}
+<!-- Teste Escrito -->
+<form class="main-form d-flex flex-fill justify-content-center" autocomplete="false">
+    <section class="data-form-container" id="rankingCandidatos">
+        <h4>{{perfil}} - Ranking</h4>
+        <br>
+        {% for avaliacao in perfil.analisetalento_set.all %}
+            <div class="card-candidato" data-id="{{avaliacao.pessoa.id}}">
+              <div class="card-right">
+                <div class="user-photo" style="background-image: url(' {% if avaliacao.pessoa.foto %} {{avaliacao.pessoa.foto.url}} {% else %} {% static 'img/no-photo.jpg' %} {% endif %}');"></div>
+                <div class="ml-4">
+                  <span>{{avaliacao.pessoa.id}} - {{avaliacao.pessoa.nome}}</span>
+                  <br>
+                  {% if avaliacao.pessoa.cargo %}
+                    <small>{{avaliacao.pessoa.cargo}}</small>
+                  {% else %}
+                    <small>N/A</small>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="card-left">
+                <div class="col-btn-avaliar text-center">
+                  <a class="btn btn-block btn-avaliar {% if not avaliacao.resposta_teste %} disabled {% endif %}" {% if avaliacao.resposta_teste %} href="/respostas/{{avaliacao.resposta_teste.id}}" {% endif %}>Avaliar</a>
+                  {% if not avaliacao.resposta_teste %}
+                    <small>Ainda não respondeu</small>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </section>
+</form>
+{% endblock %}

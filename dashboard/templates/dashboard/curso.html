@@ -1,0 +1,81 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+{% load bootstrap %}
+{% load humanize %}
+{% load dashboard_tag %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% block extrahead %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Média de Cursos por Pessoa</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <a class="btn btn-primary" onclick="exportF(this)">Gerar Excel</a>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-tasks fa-fw"></i> Resultado
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table" id="table">
+                      <thead>
+                          <tr>
+                              <td>#</td>
+                              <td>Valor</td>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Pessoas</td>
+                              <td>{{pessoas}}</td>
+                          </tr>
+                          <tr>
+                              <td>Cursos</td>
+                              <td>{{cursos}}</td>
+                          </tr>
+                          <tr>
+                              <td>Média de Cursos por Pessoa</td>
+                              <td>{{media_cursos|floatformat:2}}</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+<script>
+    function exportF(elem) {
+        var table = document.getElementById("table");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "export.xls"); // Choose the file name
+        return false;
+    }
+</script>
+{% endblock extrajs %}

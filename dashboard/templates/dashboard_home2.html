@@ -1,0 +1,198 @@
+{% extends "dashboard_base.html" %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% load staticfiles %}
+
+{% block extrahead %}
+
+
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">26</div>
+                        <div>Usuários Cadastrados!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-building-o fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>Pessoas Cadastradas!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-search fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">124</div>
+                        <div>Perfis Abertos!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-tasks fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">13</div>
+                        <div>Análises Avaliadas!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Detalhes</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Consumo do Pacote
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="flot-chart">
+                    <div class="flot-chart-content" id="flot-pie-chart"></div>
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-8 -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bell fa-fw"></i> Notifications Panel
+            </div>
+
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+
+    </div>
+    <!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<!-- Flot Charts JavaScript -->
+<script src="{% static "bower_components/flot/excanvas.min.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.resize.js" %}"></script>
+<script src="{% static "bower_components/flot/jquery.flot.time.js" %}"></script>
+<script src="{% static "bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js" %}"></script>
+<script>
+    //Flot Pie Chart
+    $(function() {
+
+        var data = [{
+            label: "Restantes",
+            data: 10
+        }, {
+            label: "Consumidos",
+            data: 32
+        }, {
+            label: "Series 2",
+            data: 93
+        }, {
+            label: "Series 3",
+            data: 1
+        }];
+
+        var plotObj = $.plot($("#flot-pie-chart"), data, {
+            series: {
+                pie: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false
+            }
+        });
+
+    });
+</script>
+{% endblock extrajs %}

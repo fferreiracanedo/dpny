@@ -1,0 +1,77 @@
+{% extends "dashboard_base.html" %}
+
+{% block sidebar_navbar %}
+    {% include 'sidebar_navbar.html' %}
+{% endblock sidebar_navbar %}
+
+{% load staticfiles %}
+
+{% block extrahead %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+{% endblock extrahead %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Avaliação - {{ analise.pessoa.nome }}</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart-o fa-fw"></i> Resultado Final
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div id="chart_div" style="height: 700px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extrajs %}
+
+<script>
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawBasic);
+    function drawBasic() {
+
+          var data = google.visualization.arrayToDataTable([
+            ['Atributo', 'Avaliação (%)', { role: 'annotation' }],
+            ['Essência/Talento', {{ nota_essencia_talento }}, 'Essência/Talento'],
+            ['Performance', {{ nota_performance }}, 'Performance'],
+            ['Experiência', {{ nota_experiencia }}, 'Experiência'],
+            ['Formação Acadêmica', {{ nota_formacao_academica }}, 'Formação Acadêmica'],
+            ['Especialização', {{ nota_especializacao }}, 'Especialização'],
+            ['Cursos', {{ nota_curso }}, 'Curso'],
+            ['Idiomas', {{ nota_idioma }}, 'Idioma'],
+            ['Teste Comportamental', {{ nota_teste_comportamental }}, 'Teste Comportamental'],
+            ['Teste Total', {{ nota_final }}, 'Nota Final'],
+          ]);
+
+          var options = {
+            chartArea: {width: '100%'},
+            hAxis: {
+              minValue: 0,
+              maxValue: 100
+            },
+            vAxis: {
+              title: 'Análise'
+            }
+          };
+
+          var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+          chart.draw(data, options);
+        }
+</script>
+{% endblock extrajs %}
